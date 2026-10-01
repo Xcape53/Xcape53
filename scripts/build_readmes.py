@@ -28,31 +28,34 @@ def project_picture(name, alt):
 def cards(pl=False):
     descriptions = [
         ('yapper','Yapper','https://github.com/Xcape53/Yapper',
-         'A Windows speech-to-text app with two push-to-talk channels, online/offline transcription and clipboard output. I use it daily.',
-         'Aplikacja Windows do zamiany mowy na tekst: dwa kanały push-to-talk, transkrypcja online i offline oraz wynik w schowku. Korzystam z niej na co dzień.',
-         'Python / PyQt6 / speech APIs','Repository','Repozytorium','https://github.com/Xcape53/Yapper/releases','Releases','Wydania'),
+         'Windows speech-to-text with two push-to-talk channels, online and offline transcription, and automatic clipboard output.',
+         'Dyktowanie tekstu w Windows: dwa kanały push-to-talk, transkrypcja online i offline oraz automatyczne kopiowanie wyniku do schowka.',
+         'Python · PyQt6 · speech APIs','Repository','Repozytorium','https://github.com/Xcape53/Yapper/releases','Releases','Wydania'),
         ('seesky','SeeSky','https://github.com/Xcape53/SeeSky-tracking',
-         'Radio telescope software for SimLE. I lead software development, covering the backend, web interface and interactive sky visualisation.',
-         'Oprogramowanie radioteleskopu zespołu SeeSky w SimLE. Jestem główną osobą odpowiedzialną za jego rozwój: backend, interfejs webowy i interaktywną wizualizację nieba.',
-         'Python / Flask / Astropy / JavaScript','Repository','Repozytorium','https://xcape53.github.io/SeeSky-tracking/','UI demo','Demo interfejsu'),
+         'Radio telescope software for the SeeSky team at SimLE. I lead development of the backend, web interface and interactive sky map.',
+         'Oprogramowanie radioteleskopu SeeSky w SimLE. Jako główny programista rozwijam backend, interfejs webowy i interaktywną mapę nieba.',
+         'Python · Flask · Astropy · JavaScript','Repository','Repozytorium','https://xcape53.github.io/SeeSky-tracking/','UI demo','Demo interfejsu'),
         ('jobmanager','JobManager','https://piotrjeleniewicz.com/#p-jobagg',
-         'A personal tool that brings job listings from multiple portals into one workflow, with shared filters, AI-assisted research and notifications.',
-         'Własne narzędzie łączące oferty z wielu portali, wspólne filtry, analizę z wykorzystaniem AI i powiadomienia.',
-         'Data aggregation / Gemini API / automation','Project overview','Opis projektu','https://piotrjeleniewicz.com/#p-jobagg','Screenshots','Zrzuty ekranu'),
+         'A job-search application combining listings from multiple portals, shared filters, AI-assisted offer research and notifications.',
+         'Oferty pracy z wielu portali w jednej aplikacji, ze wspólnymi filtrami, analizą ofert z wykorzystaniem AI i powiadomieniami.',
+         'Data aggregation · Gemini API · automation','Project overview','Opis projektu','https://piotrjeleniewicz.com/#p-jobagg','Screenshots','Zrzuty ekranu'),
         ('portfolio','Portfolio','https://piotrjeleniewicz.com/',
-         'My Polish and English portfolio: project galleries, responsive layouts and custom electronics-inspired visual effects.',
-         'Moje portfolio w wersji polskiej i angielskiej: galerie projektów, responsywny układ i autorskie efekty inspirowane elektroniką.',
-         'HTML / CSS / JavaScript / GitHub Pages','Website','Strona','https://github.com/Xcape53/portfolio','Source','Kod')]
+         'Portfolio in Polish and English, with project galleries, responsive layouts and custom visuals inspired by electronics.',
+         'Portfolio po polsku i angielsku: galerie projektów, responsywny układ i autorskie efekty wizualne inspirowane elektroniką.',
+         'HTML · CSS · JavaScript · GitHub Pages','Website','Strona','https://github.com/Xcape53/portfolio','Source','Kod')]
     rows=[]
     for i in range(0,4,2):
         row='<tr>\n'
         for name,title,url,en,polish,stack,label,pl_label,extra,extra_label,extra_pl in descriptions[i:i+2]:
+            action_links=f'<a href="{url}">{pl_label if pl else label}</a>'
+            if extra != url:
+                action_links+=f' · <a href="{extra}">{extra_pl if pl else extra_label}</a>'
             row+=f'''<td width="50%" valign="top">
 <a href="{url}">{project_picture(name,title)}</a>
-<p><strong><a href="{url}">{title}</a></strong></p>
+<h3><a href="{url}">{title}</a></h3>
 <p>{polish if pl else en}</p>
-<p><sub>{stack}</sub></p>
-<p><a href="{url}">{pl_label if pl else label}</a> · <a href="{extra}">{extra_pl if pl else extra_label}</a></p>
+<p>{stack}</p>
+<p>{action_links}</p>
 </td>\n'''
         rows.append(row+'</tr>')
     return '<table>\n'+ '\n'.join(rows)+'\n</table>'

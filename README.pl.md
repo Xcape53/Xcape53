@@ -22,32 +22,32 @@ Studiuję elektronikę i telekomunikację na Politechnice Gdańskiej. Jestem na 
 <tr>
 <td width="50%" valign="top">
 <a href="https://github.com/Xcape53/Yapper"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/projects/yapper-dark.svg"><img alt="Yapper" src="assets/projects/yapper-light.svg" width="100%"></picture></a>
-<p><strong><a href="https://github.com/Xcape53/Yapper">Yapper</a></strong></p>
-<p>Aplikacja Windows do zamiany mowy na tekst: dwa kanały push-to-talk, transkrypcja online i offline oraz wynik w schowku. Korzystam z niej na co dzień.</p>
-<p><sub>Python / PyQt6 / speech APIs</sub></p>
+<h3><a href="https://github.com/Xcape53/Yapper">Yapper</a></h3>
+<p>Dyktowanie tekstu w Windows: dwa kanały push-to-talk, transkrypcja online i offline oraz automatyczne kopiowanie wyniku do schowka.</p>
+<p>Python · PyQt6 · speech APIs</p>
 <p><a href="https://github.com/Xcape53/Yapper">Repozytorium</a> · <a href="https://github.com/Xcape53/Yapper/releases">Wydania</a></p>
 </td>
 <td width="50%" valign="top">
 <a href="https://github.com/Xcape53/SeeSky-tracking"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/projects/seesky-dark.svg"><img alt="SeeSky" src="assets/projects/seesky-light.svg" width="100%"></picture></a>
-<p><strong><a href="https://github.com/Xcape53/SeeSky-tracking">SeeSky</a></strong></p>
-<p>Oprogramowanie radioteleskopu zespołu SeeSky w SimLE. Jestem główną osobą odpowiedzialną za jego rozwój: backend, interfejs webowy i interaktywną wizualizację nieba.</p>
-<p><sub>Python / Flask / Astropy / JavaScript</sub></p>
+<h3><a href="https://github.com/Xcape53/SeeSky-tracking">SeeSky</a></h3>
+<p>Oprogramowanie radioteleskopu SeeSky w SimLE. Jako główny programista rozwijam backend, interfejs webowy i interaktywną mapę nieba.</p>
+<p>Python · Flask · Astropy · JavaScript</p>
 <p><a href="https://github.com/Xcape53/SeeSky-tracking">Repozytorium</a> · <a href="https://xcape53.github.io/SeeSky-tracking/">Demo interfejsu</a></p>
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 <a href="https://piotrjeleniewicz.com/#p-jobagg"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/projects/jobmanager-dark.svg"><img alt="JobManager" src="assets/projects/jobmanager-light.svg" width="100%"></picture></a>
-<p><strong><a href="https://piotrjeleniewicz.com/#p-jobagg">JobManager</a></strong></p>
-<p>Własne narzędzie łączące oferty z wielu portali, wspólne filtry, analizę z wykorzystaniem AI i powiadomienia.</p>
-<p><sub>Data aggregation / Gemini API / automation</sub></p>
-<p><a href="https://piotrjeleniewicz.com/#p-jobagg">Opis projektu</a> · <a href="https://piotrjeleniewicz.com/#p-jobagg">Zrzuty ekranu</a></p>
+<h3><a href="https://piotrjeleniewicz.com/#p-jobagg">JobManager</a></h3>
+<p>Oferty pracy z wielu portali w jednej aplikacji, ze wspólnymi filtrami, analizą ofert z wykorzystaniem AI i powiadomieniami.</p>
+<p>Data aggregation · Gemini API · automation</p>
+<p><a href="https://piotrjeleniewicz.com/#p-jobagg">Opis projektu</a></p>
 </td>
 <td width="50%" valign="top">
 <a href="https://piotrjeleniewicz.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/projects/portfolio-dark.svg"><img alt="Portfolio" src="assets/projects/portfolio-light.svg" width="100%"></picture></a>
-<p><strong><a href="https://piotrjeleniewicz.com/">Portfolio</a></strong></p>
-<p>Moje portfolio w wersji polskiej i angielskiej: galerie projektów, responsywny układ i autorskie efekty inspirowane elektroniką.</p>
-<p><sub>HTML / CSS / JavaScript / GitHub Pages</sub></p>
+<h3><a href="https://piotrjeleniewicz.com/">Portfolio</a></h3>
+<p>Portfolio po polsku i angielsku: galerie projektów, responsywny układ i autorskie efekty wizualne inspirowane elektroniką.</p>
+<p>HTML · CSS · JavaScript · GitHub Pages</p>
 <p><a href="https://piotrjeleniewicz.com/">Strona</a> · <a href="https://github.com/Xcape53/portfolio">Kod</a></p>
 </td>
 </tr>
