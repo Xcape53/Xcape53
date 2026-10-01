@@ -6,59 +6,59 @@
 <img alt="Piotr Jeleniewicz - software development and system integration" src="assets/header-light.svg" width="100%">
 </picture>
 
-**English** · [Polski](README.pl.md) &nbsp; | &nbsp; [Portfolio](https://piotrjeleniewicz.com/) · [LinkedIn](https://www.linkedin.com/in/piotr-jeleniewicz/)
+[English](README.md) · **Polski** &nbsp; | &nbsp; [Portfolio](https://piotrjeleniewicz.com/pl/) · [LinkedIn](https://www.linkedin.com/in/piotr-jeleniewicz/)
 
-I develop Python and JavaScript applications, integrate services through APIs and build automation tools. I am interested in system design and software that connects with devices.
+Tworzę aplikacje w Pythonie i JavaScripcie, integruję usługi przez API i rozwijam narzędzia automatyzujące codzienną pracę. Interesuje mnie projektowanie systemów oraz łączenie oprogramowania z urządzeniami.
 
-I study Electronics and Telecommunications at Gdańsk University of Technology, in the Electronics stream, specialising in Computer Electronic Systems. I am in the final semester of my engineering degree.
+Studiuję elektronikę i telekomunikację na Politechnice Gdańskiej. Jestem na ostatnim semestrze studiów inżynierskich, w strumieniu Elektronika, na specjalności Komputerowe Systemy Elektroniczne.
 
-## Selected projects
+## Wybrane projekty
 
 <table>
 <tr>
 <td width="50%" valign="top">
 <a href="https://github.com/Xcape53/Yapper"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/projects/yapper-dark.svg"><img alt="Yapper" src="assets/projects/yapper-light.svg" width="100%"></picture></a>
 <p><strong><a href="https://github.com/Xcape53/Yapper">Yapper</a></strong></p>
-<p>A Windows speech-to-text app with two push-to-talk channels, online/offline transcription and clipboard output. I use it daily.</p>
+<p>Aplikacja Windows do zamiany mowy na tekst: dwa kanały push-to-talk, transkrypcja online i offline oraz wynik w schowku. Korzystam z niej na co dzień.</p>
 <p><sub>Python / PyQt6 / speech APIs</sub></p>
-<p><a href="https://github.com/Xcape53/Yapper">Repository</a> · <a href="https://github.com/Xcape53/Yapper/releases">Releases</a></p>
+<p><a href="https://github.com/Xcape53/Yapper">Repozytorium</a> · <a href="https://github.com/Xcape53/Yapper/releases">Wydania</a></p>
 </td>
 <td width="50%" valign="top">
 <a href="https://github.com/Xcape53/SeeSky-tracking"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/projects/seesky-dark.svg"><img alt="SeeSky" src="assets/projects/seesky-light.svg" width="100%"></picture></a>
 <p><strong><a href="https://github.com/Xcape53/SeeSky-tracking">SeeSky</a></strong></p>
-<p>Radio telescope software for SimLE. I lead software development, covering the backend, web interface and interactive sky visualisation.</p>
+<p>Oprogramowanie radioteleskopu zespołu SeeSky w SimLE. Jestem główną osobą odpowiedzialną za jego rozwój: backend, interfejs webowy i interaktywną wizualizację nieba.</p>
 <p><sub>Python / Flask / Astropy / JavaScript</sub></p>
-<p><a href="https://github.com/Xcape53/SeeSky-tracking">Repository</a> · <a href="https://xcape53.github.io/SeeSky-tracking/">UI demo</a></p>
+<p><a href="https://github.com/Xcape53/SeeSky-tracking">Repozytorium</a> · <a href="https://xcape53.github.io/SeeSky-tracking/">Demo interfejsu</a></p>
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 <a href="https://piotrjeleniewicz.com/#p-jobagg"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/projects/jobmanager-dark.svg"><img alt="JobManager" src="assets/projects/jobmanager-light.svg" width="100%"></picture></a>
 <p><strong><a href="https://piotrjeleniewicz.com/#p-jobagg">JobManager</a></strong></p>
-<p>A personal tool that brings job listings from multiple portals into one workflow, with shared filters, AI-assisted research and notifications.</p>
+<p>Własne narzędzie łączące oferty z wielu portali, wspólne filtry, analizę z wykorzystaniem AI i powiadomienia.</p>
 <p><sub>Data aggregation / Gemini API / automation</sub></p>
-<p><a href="https://piotrjeleniewicz.com/#p-jobagg">Project overview</a> · <a href="https://piotrjeleniewicz.com/#p-jobagg">Screenshots</a></p>
+<p><a href="https://piotrjeleniewicz.com/#p-jobagg">Opis projektu</a> · <a href="https://piotrjeleniewicz.com/#p-jobagg">Zrzuty ekranu</a></p>
 </td>
 <td width="50%" valign="top">
 <a href="https://piotrjeleniewicz.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/projects/portfolio-dark.svg"><img alt="Portfolio" src="assets/projects/portfolio-light.svg" width="100%"></picture></a>
 <p><strong><a href="https://piotrjeleniewicz.com/">Portfolio</a></strong></p>
-<p>My Polish and English portfolio: project galleries, responsive layouts and custom electronics-inspired visual effects.</p>
+<p>Moje portfolio w wersji polskiej i angielskiej: galerie projektów, responsywny układ i autorskie efekty inspirowane elektroniką.</p>
 <p><sub>HTML / CSS / JavaScript / GitHub Pages</sub></p>
-<p><a href="https://piotrjeleniewicz.com/">Website</a> · <a href="https://github.com/Xcape53/portfolio">Source</a></p>
+<p><a href="https://piotrjeleniewicz.com/">Strona</a> · <a href="https://github.com/Xcape53/portfolio">Kod</a></p>
 </td>
 </tr>
 </table>
 
-<sub>SeeSky: hardware and SDR integration are the next stage. The demo shows the interface without live star or sensor data.</sub>
+<sub>SeeSky: integracja ze sprzętem i odbiornikiem SDR to kolejny etap projektu. Demo pokazuje interfejs bez bieżących danych z gwiazd i czujników.</sub>
 
 <details>
-<summary>Application screenshots</summary>
+<summary>Zrzuty aplikacji</summary>
 
-**JobManager** - offer research view from my public portfolio.
+**JobManager** - widok analizy oferty z publicznego portfolio.
 
 <img src="assets/screenshots/jobmanager-analysis.png" alt="JobManager offer research interface" width="100%">
 
-**SeeSky** - interface demo, without a connected backend or sensor data.
+**SeeSky** - demo interfejsu, bez podłączonego backendu i danych z czujników.
 
 <img src="assets/screenshots/seesky-demo.jpg" alt="SeeSky tracking dashboard in interface demo mode" width="100%">
 
@@ -68,11 +68,11 @@ I study Electronics and Telecommunications at Gdańsk University of Technology, 
 
 </details>
 
-## How I work with AI
+## Jak pracuję z AI
 
-I start with the problem and expected behaviour, define module responsibilities and interfaces, then integrate the components. AI development tools support implementation and debugging; I guide development and verify how the system behaves.
+Zaczynam od problemu i oczekiwanego działania. Dzielę system na moduły, określam ich odpowiedzialność i interfejsy, a następnie łączę komponenty w spójną aplikację. Narzędzia AI wspierają mnie w implementacji i diagnozowaniu błędów; ja prowadzę rozwój i sprawdzam zachowanie systemu.
 
-**Example - JobManager:** collection, filtering, research and notifications have separate responsibilities within one workflow. I improve them iteratively through daily use.
+**Przykład - JobManager:** zbieranie ofert, filtrowanie, analiza i powiadomienia mają osobne zadania, ale współpracują w jednym przepływie. Rozwijam je iteracyjnie na podstawie codziennego używania aplikacji.
 
 <picture>
 <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/workflow-mobile-dark.svg">
@@ -81,9 +81,9 @@ I start with the problem and expected behaviour, define module responsibilities 
 <img alt="Requirements, modules, implementation, integration and validation" src="assets/workflow-light.svg" width="100%">
 </picture>
 
-**Core tools:** Python · JavaScript · REST APIs · Git. My electronics background also includes measurement, simulation and circuit-design labs.
+**Główne narzędzia:** Python · JavaScript · REST APIs · Git. Moje przygotowanie z elektroniki obejmuje także pomiary, symulacje i projektowanie układów.
 
-## Public project activity
+## Aktywność w publicznych projektach
 
 <picture>
 <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/activity-mobile-dark.svg">
@@ -92,21 +92,21 @@ I start with the problem and expected behaviour, define module responsibilities 
 <img alt="Recent changes in four selected public projects over the last 90 days" src="assets/activity-light.svg" width="100%">
 </picture>
 
-The panel covers Yapper, SeeSky-tracking, portfolio and LabInc over the past 90 days, excluding bots. The arcade below uses publicly searchable commits from the past year.
+Panel obejmuje Yapper, SeeSky-tracking, portfolio i LabInc z ostatnich 90 dni, z pominięciem botów. Animacja poniżej korzysta z publicznie wyszukiwalnych commitów z ostatniego roku.
 
 <picture>
 <source media="(prefers-color-scheme: dark)" srcset="assets/arcade/galaga-dark.svg">
 <img alt="Arcade animation of publicly searchable commits over the past year" src="assets/arcade/galaga-light.svg" width="100%">
 </picture>
 
-<sub>The SVG plays automatically. Data refreshes daily; private activity is not included. Animation: <a href="https://github.com/abozanona/pacman-contribution-graph">pacman-contribution-graph</a>.</sub>
+<sub>Animacja SVG odtwarza rozgrywkę automatycznie. Dane odświeżają się codziennie; prywatna aktywność nie jest uwzględniana. Animation: <a href="https://github.com/abozanona/pacman-contribution-graph">pacman-contribution-graph</a>.</sub>
 
 <details>
-<summary>More projects and an alternative arcade</summary>
+<summary>Więcej projektów i wariant arcade</summary>
 
-- **[LabInc: Chemical Tycoon](https://github.com/Xcape53/LabInc)** - a Java economy game with production modelling, state persistence and a Swing interface.
-- **[Inventory generator](https://piotrjeleniewicz.com/inventoryGen/index.html)** - an interactive web tool for arranging Minecraft-style inventories.
-- **[Turf Matchmaking](https://github.com/Xcape53/TurfMatchMaking)** - a game-lobby finder with filters, live-data validation and retries.
+- **[LabInc: Chemical Tycoon](https://github.com/Xcape53/LabInc)** - gra ekonomiczna w Javie, z modelem produkcji, zapisem stanu i interfejsem Swing.
+- **[Generator ekwipunku](https://piotrjeleniewicz.com/inventoryGen/index.html)** - interaktywne narzędzie webowe do układania ekwipunku w stylu Minecrafta.
+- **[Turf Matchmaking](https://github.com/Xcape53/TurfMatchMaking)** - wyszukiwanie lobby gry z filtrami, walidacją danych i ponawianiem zapytań.
 
 <picture>
 <source media="(prefers-color-scheme: dark)" srcset="assets/arcade/breakout-dark.svg">
@@ -120,16 +120,16 @@ The panel covers Yapper, SeeSky-tracking, portfolio and LabInc over the past 90 
 
 </details>
 
-## Contact and availability
+## Kontakt i dostępność
 
-I am looking for a **paid internship or part-time role** in software development, system integration or automation. I prefer **remote work or a hybrid role in Tricity, Poland**.
+Szukam **płatnego stażu lub pracy na pół etatu** w rozwoju oprogramowania, integracji systemów lub automatyzacji. Preferuję pracę **zdalną lub hybrydową w Trójmieście**.
 
-[Contact me through my portfolio](https://piotrjeleniewicz.com/#contact) · [LinkedIn](https://www.linkedin.com/in/piotr-jeleniewicz/)
+[Napisz do mnie przez portfolio](https://piotrjeleniewicz.com/pl/#contact) · [LinkedIn](https://www.linkedin.com/in/piotr-jeleniewicz/)
 
-CV available on request.
+CV dostępne na prośbę.
 
 <details>
-<summary>Static artwork</summary>
+<summary>Grafika bez animacji</summary>
 
 <picture>
 <source media="(prefers-color-scheme: dark)" srcset="assets/header-dark-static.svg">

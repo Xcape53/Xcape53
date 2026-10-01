@@ -1,0 +1,162 @@
+{
+  "updated_at": "2026-10-01T00:32:16Z",
+  "window_days": 90,
+  "repositories": [
+    {
+      "name": "Yapper",
+      "url": "https://github.com/Xcape53/Yapper",
+      "commits": [
+        {
+          "sha": "6ab98513c606a0966253e2abe944d7df2239ffd9",
+          "title": "feat: add Groq Whisper transcription and compact GUI",
+          "date": "2026-09-04T14:53:57Z",
+          "url": "https://github.com/Xcape53/Yapper/commit/6ab98513c606a0966253e2abe944d7df2239ffd9"
+        },
+        {
+          "sha": "001d2f66bdbd81d5dbb85f2dcb7ce69a83e71fa1",
+          "title": "docs: rewrite project documentation in English",
+          "date": "2026-07-04T16:00:00Z",
+          "url": "https://github.com/Xcape53/Yapper/commit/001d2f66bdbd81d5dbb85f2dcb7ce69a83e71fa1"
+        }
+      ],
+      "release": {
+        "tag": "v1.2.0",
+        "date": "2026-06-11T15:56:26Z",
+        "url": "https://github.com/Xcape53/Yapper/releases/tag/v1.2.0"
+      }
+    },
+    {
+      "name": "SeeSky-tracking",
+      "url": "https://github.com/Xcape53/SeeSky-tracking",
+      "commits": [
+        {
+          "sha": "076372d0927c551227f95395ee977322e4be0e7a",
+          "title": "docs: rewrite project documentation in English",
+          "date": "2026-07-09T16:00:00Z",
+          "url": "https://github.com/Xcape53/SeeSky-tracking/commit/076372d0927c551227f95395ee977322e4be0e7a"
+        }
+      ],
+      "release": null
+    },
+    {
+      "name": "portfolio",
+      "url": "https://github.com/Xcape53/portfolio",
+      "commits": [
+        {
+          "sha": "b8dd88a22057fc8335fee075f3a6d765eb9922e8",
+          "title": "Clarify portfolio documentation",
+          "date": "2026-10-01T00:09:23Z",
+          "url": "https://github.com/Xcape53/portfolio/commit/b8dd88a22057fc8335fee075f3a6d765eb9922e8"
+        },
+        {
+          "sha": "c6a85d6f3e7a4a30ab8fb88c85e15c2fe473dfe9",
+          "title": "Update portfolio profile and career presentation",
+          "date": "2026-09-30T22:38:32Z",
+          "url": "https://github.com/Xcape53/portfolio/commit/c6a85d6f3e7a4a30ab8fb88c85e15c2fe473dfe9"
+        },
+        {
+          "sha": "d5ba6c8de4f85bfe5c168be84dc54687484811d3",
+          "title": "feat: refresh favicon and SEO identity",
+          "date": "2026-07-14T01:08:38Z",
+          "url": "https://github.com/Xcape53/portfolio/commit/d5ba6c8de4f85bfe5c168be84dc54687484811d3"
+        },
+        {
+          "sha": "fe2c20b2b4e1eb87b562940d969e389e7b22a116",
+          "title": "fix: sync coding activity with GitHub",
+          "date": "2026-07-13T23:10:08Z",
+          "url": "https://github.com/Xcape53/portfolio/commit/fe2c20b2b4e1eb87b562940d969e389e7b22a116"
+        },
+        {
+          "sha": "ab2d4a5c0efa2d0ef0c7a8f1364ed35734262940",
+          "title": "fix: restore original banner headline",
+          "date": "2026-07-13T21:27:37Z",
+          "url": "https://github.com/Xcape53/portfolio/commit/ab2d4a5c0efa2d0ef0c7a8f1364ed35734262940"
+        },
+        {
+          "sha": "116147d5d341339f3586c09ef2283858d4696d9a",
+          "title": "docs: add English project documentation",
+          "date": "2026-07-08T16:00:00Z",
+          "url": "https://github.com/Xcape53/portfolio/commit/116147d5d341339f3586c09ef2283858d4696d9a"
+        },
+        {
+          "sha": "217729b98908d39a2727d7c15bdf71a5cde39d11",
+          "title": "Optimize gallery loading and CSS delivery",
+          "date": "2026-07-04T16:00:00Z",
+          "url": "https://github.com/Xcape53/portfolio/commit/217729b98908d39a2727d7c15bdf71a5cde39d11"
+        },
+        {
+          "sha": "1512453a6a02feac6c1ffcd2b1ef8bec632cbc9c",
+          "title": "Improve mobile performance and accessibility",
+          "date": "2026-07-03T16:00:00Z",
+          "url": "https://github.com/Xcape53/portfolio/commit/1512453a6a02feac6c1ffcd2b1ef8bec632cbc9c"
+        },
+        {
+          "sha": "aa92ee3cb872b19823beae97fe75cdaae9eb61f1",
+          "title": "Optimize portfolio performance and strengthen identity SEO",
+          "date": "2026-07-03T10:00:00Z",
+          "url": "https://github.com/Xcape53/portfolio/commit/aa92ee3cb872b19823beae97fe75cdaae9eb61f1"
+        }
+      ],
+      "release": null
+    },
+    {
+      "name": "LabInc",
+      "url": "https://github.com/Xcape53/LabInc",
+      "commits": [
+        {
+          "sha": "b1b5a6b492b1f58b729ee47c31e7bd4a267fd927",
+          "title": "docs: rewrite project documentation in English",
+          "date": "2026-07-10T16:00:00Z",
+          "url": "https://github.com/Xcape53/LabInc/commit/b1b5a6b492b1f58b729ee47c31e7bd4a267fd927"
+        }
+      ],
+      "release": null
+    }
+  ],
+  "commit_count": 13,
+  "recent": [
+    {
+      "sha": "b8dd88a22057fc8335fee075f3a6d765eb9922e8",
+      "title": "Clarify portfolio documentation",
+      "date": "2026-10-01T00:09:23Z",
+      "url": "https://github.com/Xcape53/portfolio/commit/b8dd88a22057fc8335fee075f3a6d765eb9922e8",
+      "repo": "portfolio"
+    },
+    {
+      "sha": "c6a85d6f3e7a4a30ab8fb88c85e15c2fe473dfe9",
+      "title": "Update portfolio profile and career presentation",
+      "date": "2026-09-30T22:38:32Z",
+      "url": "https://github.com/Xcape53/portfolio/commit/c6a85d6f3e7a4a30ab8fb88c85e15c2fe473dfe9",
+      "repo": "portfolio"
+    },
+    {
+      "sha": "6ab98513c606a0966253e2abe944d7df2239ffd9",
+      "title": "feat: add Groq Whisper transcription and compact GUI",
+      "date": "2026-09-04T14:53:57Z",
+      "url": "https://github.com/Xcape53/Yapper/commit/6ab98513c606a0966253e2abe944d7df2239ffd9",
+      "repo": "Yapper"
+    },
+    {
+      "sha": "d5ba6c8de4f85bfe5c168be84dc54687484811d3",
+      "title": "feat: refresh favicon and SEO identity",
+      "date": "2026-07-14T01:08:38Z",
+      "url": "https://github.com/Xcape53/portfolio/commit/d5ba6c8de4f85bfe5c168be84dc54687484811d3",
+      "repo": "portfolio"
+    }
+  ],
+  "weeks": [
+    5,
+    5,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    2
+  ]
+}

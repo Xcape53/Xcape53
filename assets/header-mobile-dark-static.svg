@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="364" viewBox="0 0 600 364" role="img" aria-labelledby="title desc">
+<title id="title">Software development and system integration</title><desc id="desc">Python, JavaScript, REST APIs and an electronics background.</desc>
+<defs><linearGradient id="signal"><stop stop-color="#60a5fa"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+<pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#29364c" stroke-width="0.6"/></pattern></defs>
+<style>text{font-family:Inter,Segoe UI,Arial,sans-serif} .mono{font-family:Consolas,monospace} @media(prefers-reduced-motion:reduce){.moving{display:none}}</style>
+<rect x="1" y="1" width="598" height="362" rx="20" fill="#0d1117" stroke="#29364c"/>
+<text x="30" y="49" font-size="17" fill="#9aaec9" font-weight="600" letter-spacing="1.8">PIOTR JELENIEWICZ / XCAPE53</text><text x="28" y="118" font-size="41" fill="#eef3fb" font-weight="700" >Software development</text><text x="28" y="170" font-size="41" fill="#eef3fb" font-weight="700" >&amp; system integration</text><rect x="30" y="197" width="65" height="4" fill="url(#signal)" rx="2"/><text x="30" y="239" font-size="18" fill="#60a5fa" font-weight="600" class="mono">PYTHON / JAVASCRIPT / REST APIs</text><text x="30" y="276" font-size="19" fill="#9aaec9" font-weight="400" >Electronics, applications and automation.</text><path d="M30 331H127L160 309H349L380 331H567" stroke="#29364c" stroke-width="2" fill="none"/></svg>
