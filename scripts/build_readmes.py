@@ -14,7 +14,7 @@ def picture(name, alt, mobile=False):
 <source media="(max-width: 600px)" srcset="assets/{name}-mobile-{theme}.svg">
 <img alt="{alt}" src="assets/{name}-{theme}.svg" width="100%">
 </picture></a>''')
-        return '\n'.join(variants)
+        return '<div>\n'+'\n'.join(variants)+'\n</div>'
     return f'''<picture>
 <source media="(prefers-color-scheme: dark)" srcset="assets/{name}-dark.svg">
 <img alt="{alt}" src="assets/{name}-light.svg" width="100%">
