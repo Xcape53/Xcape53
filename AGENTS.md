@@ -8,6 +8,7 @@ Public engineering profile for Piotr Jeleniewicz (Xcape53).
 - Use only ASCII hyphens, never U+2013 or U+2014.
 - Main profile projects: Yapper, SeeSky, JobManager and portfolio. JobManager code stays private; its public overview and screenshots are on the portfolio.
 - Source artwork is scripts/build_visuals.py. Regenerate with Python. Use code-native SVG for illustrations; original public screenshots are in assets/screenshots/.
+- Project covers use individual flat palettes, large titles, the original SeeSky mark and embedded public screenshots. Preserve their clean composition; avoid placeholder interfaces, repeated technical grids and decorative status labels. After regenerating, run node scripts/render_social.mjs to keep the social PNGs consistent with their SVG sources.
 - Activity source: scripts/activity.py, restricted to four public repositories. Arcade uses unauthenticated public commit search. Its calendar shows searchable public commits, not all GitHub contributions or private work.
 - Verification: python -m unittest discover -s tests -v; python scripts/build_visuals.py; python scripts/activity.py --offline; npm ci --ignore-scripts; npm run arcade; parse all SVG files with xml.etree.ElementTree.
 - Daily automation lives in .github/workflows/update-profile.yml. Do not commit generated results if any generation or validation step fails.

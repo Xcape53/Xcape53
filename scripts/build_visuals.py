@@ -2,7 +2,7 @@
 
 from html import escape
 from pathlib import Path
-import math
+import base64
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -55,52 +55,73 @@ def header(theme, static=False):
 
 
 def project(name, theme):
-    p = PALETTES[theme]
-    labels = {'yapper': ('01 / DESKTOP AUDIO','Yapper','Speech to text'), 'seesky': ('02 / SCIENTIFIC SOFTWARE','SeeSky','Radio telescope software'), 'jobmanager': ('03 / PERSONAL AUTOMATION','JobManager','Job listing analysis'), 'portfolio': ('04 / WEB','Portfolio','Projects in Polish and English')}
-    kicker, title, subtitle = labels[name]
-    body = f'<rect x="305" y="2" width="293" height="296" rx="18" fill="url(#grid)" opacity="0.6"/>'
-    body += text(28,42,kicker,11,p['sub'],600,'letter-spacing="1.4"')
-    body += text(28,94,title,38,p['fg'],700)
-    body += text(28,124,subtitle,17,p['sub'])
-    body += '<rect x="28" y="145" width="52" height="3" fill="url(#signal)" rx="1.5"/>'
+    """Editorial project covers: two original motifs and two real interfaces."""
+    dark = theme == 'dark'
+    ink = '#f4f6fb' if dark else '#182335'
+    muted = '#aab4c4' if dark else '#536174'
+    surfaces = {
+        'yapper': ('#172237', '#eff4fc', '#83abff', '#365fba'),
+        'seesky': ('#1c1a2b', '#f7f1f5', '#e17fa7', '#a3295a'),
+        'jobmanager': ('#182520', '#eef6f1', '#84caa4', '#347553'),
+        'portfolio': ('#202035', '#f2f1fa', '#b4acf0', '#6353b6'),
+    }
+    bg_dark, bg_light, accent_dark, accent_light = surfaces[name]
+    bg, accent = (bg_dark, accent_dark) if dark else (bg_light, accent_light)
+    title, subtitle = {
+        'yapper': ('Yapper', 'Speech to text for Windows'),
+        'seesky': ('SeeSky', 'Radio telescope software'),
+        'jobmanager': ('JobManager', 'Job search and offer research'),
+        'portfolio': ('Portfolio', 'Selected work in Polish and English'),
+    }[name]
+    body = f'<rect width="600" height="320" rx="12" fill="{bg}"/>'
+    body += text(30, 61, title, 44, ink, 600, 'letter-spacing="-1.5"')
+    body += text(32, 93, subtitle, 19, muted)
+    body += f'<path d="M32 116H568" stroke="{accent}" stroke-opacity="0.26"/>'
     if name == 'yapper':
-        for y,label in [(178,'PTT 01'),(228,'PTT 02')]:
-            body += f'<rect x="28" y="{y}" width="111" height="36" rx="7" fill="{p["panel"]}" stroke="{p["line"]}"/>'
-            body += text(43,y+23,label,14,p['blue'],600,'class="mono"')
-            body += f'<path d="M139 {y+18}H164L189 220H309" stroke="{p["blue"]}" fill="none" stroke-width="2"/>'
-        body += f'<rect x="308" y="158" width="262" height="107" rx="12" fill="{p["panel"]}" stroke="{p["line"]}"/>'
-        body += text(328,185,'TRANSCRIPT > CLIPBOARD',12,p['purple'],500,'class="mono"')
-        for i,width in enumerate([212,172,190]):
-            body += f'<rect x="328" y="{202+i*16}" width="{width}" height="5" rx="2" fill="{p["line"]}"/>'
+        # An illustrated voice signal, not a recording or invented app screenshot.
+        amplitudes = [6, 8, 5, 11, 18, 31, 46, 34, 58, 76, 61, 35, 20, 29,
+                      47, 65, 49, 26, 13, 8, 6, 12, 24, 39, 53, 32, 18, 8]
+        for i, amplitude in enumerate(amplitudes):
+            x = 34 + i * 10
+            body += f'<rect x="{x}" y="{218-amplitude/2}" width="4" height="{amplitude}" rx="2" fill="{accent}"/>'
+        body += f'<path d="M333 218H365M357 210L365 218L357 226" fill="none" stroke="{muted}" stroke-width="1.5"/>'
+        body += text(387, 235, 'Text', 48, ink, 600, 'letter-spacing="-1"')
+        body += f'<path d="M493 200V241" stroke="{accent}" stroke-width="2"/>'
+        body += text(32, 288, 'Two push-to-talk channels', 16, muted)
     elif name == 'seesky':
-        cx,cy=438,188
-        for radius in (42,73,106):
-            body += f'<circle cx="{cx}" cy="{cy}" r="{radius}" fill="none" stroke="{p["line"]}"/>'
-        for angle in range(0,360,45):
-            rad=math.radians(angle)
-            body += f'<path d="M{cx} {cy}L{cx+106*math.cos(rad):.1f} {cy+106*math.sin(rad):.1f}" stroke="{p["line"]}"/>'
-        for dx,dy,r in [(22,-18,4),(-48,-58,2),(62,34,2),(-63,18,3),(7,59,2),(61,-65,2)]:
-            body += f'<circle cx="{cx+dx}" cy="{cy+dy}" r="{r}" fill="{p["blue"]}"/>'
-        body += f'<circle cx="460" cy="170" r="12" fill="none" stroke="{p["purple"]}"/><path d="M460 150V161M460 179V190M440 170H451M469 170H480" stroke="{p["purple"]}"/>'
-        body += text(28,199,'SKY MAP',15,p['blue'],600,'class="mono"')
-        body += text(28,229,'PYTHON REST API',14,p['sub'],500,'class="mono"')
-        body += text(28,259,'WEB DASHBOARD',14,p['sub'],500,'class="mono"')
-    elif name == 'jobmanager':
-        body += text(28,208,'SOURCES',14,p['blue'],600,'class="mono"')
-        body += text(28,234,'FILTERS',14,p['sub'],500,'class="mono"')
-        body += text(28,260,'RESEARCH',14,p['sub'],500,'class="mono"')
-        for i,width in enumerate([242,206,223]):
-            y=156+i*40
-            body += f'<rect x="313" y="{y}" width="{width}" height="31" rx="6" fill="{p["panel"]}" stroke="{p["line"]}"/><circle cx="329" cy="{y+15}" r="4" fill="{p["purple"]}"/><path d="M342 {y+11}H{313+width-18}M342 {y+20}H{313+width-48}" stroke="{p["sub"]}" stroke-width="2"/>'
+        # Original path geometry and colours from the public SeeSky project mark.
+        body += '<g transform="translate(396 142) scale(1.35)"><g transform="translate(-25.971687,-15.020365)">'
+        triangle = 'M127.99846,74.744104 76.996428,104.20427 76.984194,45.305132Z'
+        body += f'<path fill="#7b1b38" d="{triangle}"/>'
+        body += f'<path fill="#b22f57" d="{triangle}" transform="rotate(180,76.991193,74.754134)"/>'
+        body += '<path fill="#b22f57" d="m109.99519,76.610842 -26.230151,15.139174 0.0042,-30.285564z" transform="matrix(1,0,0,-1,-6.7812061,106.77038)"/>'
+        body += '<path fill="#b22f57" d="M117.85623,76.958871 79.533118,98.38386 80.140088,54.482579Z" transform="rotate(-90,90.701625,116.46298)"/>'
+        body += f'<path fill="#7b1b38" d="{triangle}" transform="translate(-51.012506,-29.438889)"/>'
+        body += '</g>'
+        body += '</g>'
+        body += f'<g fill="none" stroke="{accent}" stroke-width="0.8" opacity="0.42"><path d="M31 229C140 125 268 137 327 251"/><path d="M40 166C156 213 278 281 333 291"/><path d="M102 133C103 212 145 278 184 304"/><path d="M235 133C213 205 207 260 218 306"/></g>'
+        for x, y, radius in [(72,198,2.5),(117,174,1.8),(167,191,3.2),(211,220,2),(279,247,2.8),(309,167,1.2),(51,269,1.3),(253,155,1.2)]:
+            body += f'<circle cx="{x}" cy="{y}" r="{radius}" fill="{accent}"/>'
+        body += text(568, 57, 'SimLE', 18, accent, 600, 'text-anchor="end"')
     else:
-        body += text(28,208,'PL / EN',20,p['blue'],600,'class="mono"')
-        body += text(28,242,'HTML / CSS / JS',14,p['sub'],500,'class="mono"')
-        body += f'<rect x="314" y="128" width="260" height="135" rx="9" fill="{p["panel"]}" stroke="{p["line"]}"/><path d="M314 149H574" stroke="{p["line"]}"/>'
-        for x in (326,337,348):
-            body += f'<circle cx="{x}" cy="139" r="2.5" fill="{p["sub"]}"/>'
-        body += f'<path d="M333 166H422M333 178H401M333 194H377M333 235H413" stroke="{p["sub"]}" stroke-width="4"/>'
-        body += f'<path d="M462 164V192H443V231H515V211H552M443 219H422M494 231V249" stroke="{p["purple"]}" fill="none" stroke-width="2"/><circle cx="484" cy="202" r="20" fill="none" stroke="{p["blue"]}"/>'
-    return svg(600,300,body,title,subtitle+'. Original functional illustration; not an application screenshot.',theme)
+        filename = 'jobmanager-analysis.png' if name == 'jobmanager' else 'portfolio.jpg'
+        image_path = OUT / 'screenshots' / filename
+        mime = 'image/png' if image_path.suffix == '.png' else 'image/jpeg'
+        payload = base64.b64encode(image_path.read_bytes()).decode('ascii')
+        clip_id = f'{name}-interface-clip'
+        body += f'<defs><clipPath id="{clip_id}"><rect x="32" y="138" width="536" height="182" rx="7"/></clipPath></defs>'
+        body += f'<rect x="32" y="138" width="536" height="280" rx="7" fill="#050b13" stroke="{accent}" stroke-opacity="0.2"/>'
+        # The portfolio crop omits only the captured browser scrollbar at right.
+        width, height = (536, 234) if name == 'jobmanager' else (544, 306)
+        body += f'<image href="data:{mime};base64,{payload}" x="32" y="138" width="{width}" height="{height}" clip-path="url(#{clip_id})"/>'
+    description = subtitle + '. '
+    description += ('Original voice illustration.' if name == 'yapper' else
+                    'SeeSky project emblem and illustrative sky coordinates.' if name == 'seesky' else
+                    'Original public application screenshot, shown in an editorial crop.')
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="600" height="320" viewBox="0 0 600 320" role="img" aria-labelledby="title desc">
+<title id="title">{escape(title)}</title><desc id="desc">{escape(description)}</desc>
+<style>text{{font-family:Segoe UI,Arial,sans-serif}}</style>
+{body}</svg>'''
 
 
 def workflow(theme):
@@ -155,7 +176,12 @@ def social(name):
     def artwork(source,transform):
         ET.register_namespace('', 'http://www.w3.org/2000/svg')
         root=ET.fromstring(source)
-        content=''.join(ET.tostring(child,encoding='unicode') for child in root if child.tag.split('}')[-1] not in ('title','desc','defs','style'))
+        for child in list(root):
+            if child.tag.split('}')[-1] in ('title', 'desc'):
+                root.remove(child)
+        root.attrib.pop('aria-labelledby', None)
+        root.attrib.pop('role', None)
+        content=ET.tostring(root,encoding='unicode')
         return f'<g transform="{transform}">{content}</g>'
     if name=='profile':
         body+=artwork(header('dark',True),'translate(30 112) scale(0.95)')
@@ -164,7 +190,7 @@ def social(name):
         body+=artwork(project(name,'dark'),'translate(144 90) scale(1.52)')
     body+=text(42,603,'github.com/Xcape53',20,p['sub'],500)
     body+=text(1158,603,'piotrjeleniewicz.com',20,p['sub'],500,'text-anchor="end"')
-    return svg(1200,630,body,name+' project preview','Public engineering project by Piotr Jeleniewicz. Original functional illustration.')
+    return svg(1200,630,body,name+' project preview','Public engineering project by Piotr Jeleniewicz. Project artwork and original public interface screenshots.')
 
 
 def main():
