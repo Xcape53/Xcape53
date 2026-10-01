@@ -5,12 +5,18 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def picture(name, alt, mobile=False):
-    sources=''
     if mobile:
-        sources+=f'<source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/{name}-mobile-dark.svg">\n'
-        sources+=f'<source media="(max-width: 600px)" srcset="assets/{name}-mobile-light.svg">\n'
+        # GitHub replaces theme media queries, discarding combined width rules.
+        # Keep responsive art direction separate from its theme-only fragments.
+        variants=[]
+        for theme in ('dark','light'):
+            variants.append(f'''<picture>
+<source media="(max-width: 600px)" srcset="assets/{name}-mobile-{theme}.svg">
+<img alt="{alt}" src="assets/{name}-{theme}.svg#gh-{theme}-mode-only" width="100%">
+</picture>''')
+        return '\n'.join(variants)
     return f'''<picture>
-{sources}<source media="(prefers-color-scheme: dark)" srcset="assets/{name}-dark.svg">
+<source media="(prefers-color-scheme: dark)" srcset="assets/{name}-dark.svg">
 <img alt="{alt}" src="assets/{name}-light.svg" width="100%">
 </picture>'''
 

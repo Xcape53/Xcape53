@@ -15,7 +15,7 @@ for path in (ROOT/'assets').rglob('*.svg'):
 for path in [ROOT/'README.md',ROOT/'README.pl.md']:
     source=path.read_text(encoding='utf-8')
     for reference in re.findall(r'(?:src|srcset)="(assets/[^"]+)"',source):
-        if not (ROOT/reference).is_file():
+        if not (ROOT/reference.split('#',1)[0]).is_file():
             errors.append(f'{path.name}: missing {reference}')
 for path in ROOT.rglob('*'):
     if not path.is_file() or any(part in ('.git','node_modules','qa','__pycache__') for part in path.parts):

@@ -1,9 +1,11 @@
 <!-- Copy source: scripts/build_readmes.py -->
 <picture>
-<source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/header-mobile-dark.svg">
+<source media="(max-width: 600px)" srcset="assets/header-mobile-dark.svg">
+<img alt="Piotr Jeleniewicz - software development and system integration" src="assets/header-dark.svg#gh-dark-mode-only" width="100%">
+</picture>
+<picture>
 <source media="(max-width: 600px)" srcset="assets/header-mobile-light.svg">
-<source media="(prefers-color-scheme: dark)" srcset="assets/header-dark.svg">
-<img alt="Piotr Jeleniewicz - software development and system integration" src="assets/header-light.svg" width="100%">
+<img alt="Piotr Jeleniewicz - software development and system integration" src="assets/header-light.svg#gh-light-mode-only" width="100%">
 </picture>
 
 [English](README.md) · **Polski** &nbsp; | &nbsp; [Portfolio](https://piotrjeleniewicz.com/pl/) · [LinkedIn](https://www.linkedin.com/in/piotr-jeleniewicz/)
@@ -75,10 +77,12 @@ Zaczynam od problemu i oczekiwanego działania. Dzielę system na moduły, okre�
 **Przykład - JobManager:** zbieranie ofert, filtrowanie, analiza i powiadomienia mają osobne zadania, ale współpracują w jednym przepływie. Rozwijam je iteracyjnie na podstawie codziennego używania aplikacji.
 
 <picture>
-<source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/workflow-mobile-dark.svg">
+<source media="(max-width: 600px)" srcset="assets/workflow-mobile-dark.svg">
+<img alt="Requirements, modules, implementation, integration and validation" src="assets/workflow-dark.svg#gh-dark-mode-only" width="100%">
+</picture>
+<picture>
 <source media="(max-width: 600px)" srcset="assets/workflow-mobile-light.svg">
-<source media="(prefers-color-scheme: dark)" srcset="assets/workflow-dark.svg">
-<img alt="Requirements, modules, implementation, integration and validation" src="assets/workflow-light.svg" width="100%">
+<img alt="Requirements, modules, implementation, integration and validation" src="assets/workflow-light.svg#gh-light-mode-only" width="100%">
 </picture>
 
 **Główne narzędzia:** Python · JavaScript · REST APIs · Git. Moje przygotowanie z elektroniki obejmuje także pomiary, symulacje i projektowanie układów.
@@ -86,10 +90,12 @@ Zaczynam od problemu i oczekiwanego działania. Dzielę system na moduły, okre�
 ## Aktywność w publicznych projektach
 
 <picture>
-<source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/activity-mobile-dark.svg">
+<source media="(max-width: 600px)" srcset="assets/activity-mobile-dark.svg">
+<img alt="Recent changes in four selected public projects over the last 90 days" src="assets/activity-dark.svg#gh-dark-mode-only" width="100%">
+</picture>
+<picture>
 <source media="(max-width: 600px)" srcset="assets/activity-mobile-light.svg">
-<source media="(prefers-color-scheme: dark)" srcset="assets/activity-dark.svg">
-<img alt="Recent changes in four selected public projects over the last 90 days" src="assets/activity-light.svg" width="100%">
+<img alt="Recent changes in four selected public projects over the last 90 days" src="assets/activity-light.svg#gh-light-mode-only" width="100%">
 </picture>
 
 Panel obejmuje Yapper, SeeSky-tracking, portfolio i LabInc z ostatnich 90 dni, z pominięciem botów. Animacja poniżej korzysta z publicznie wyszukiwalnych commitów z ostatniego roku.
