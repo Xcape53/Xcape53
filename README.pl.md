@@ -1,12 +1,12 @@
 <!-- Copy source: scripts/build_readmes.py -->
-<picture>
+<a href="assets/header-dark.svg#gh-dark-mode-only"><picture>
 <source media="(max-width: 600px)" srcset="assets/header-mobile-dark.svg">
-<img alt="Piotr Jeleniewicz - software development and system integration" src="assets/header-dark.svg#gh-dark-mode-only" width="100%">
-</picture>
-<picture>
+<img alt="Piotr Jeleniewicz - software development and system integration" src="assets/header-dark.svg" width="100%">
+</picture></a>
+<a href="assets/header-light.svg#gh-light-mode-only"><picture>
 <source media="(max-width: 600px)" srcset="assets/header-mobile-light.svg">
-<img alt="Piotr Jeleniewicz - software development and system integration" src="assets/header-light.svg#gh-light-mode-only" width="100%">
-</picture>
+<img alt="Piotr Jeleniewicz - software development and system integration" src="assets/header-light.svg" width="100%">
+</picture></a>
 
 [English](README.md) · **Polski** &nbsp; | &nbsp; [Portfolio](https://piotrjeleniewicz.com/pl/) · [LinkedIn](https://www.linkedin.com/in/piotr-jeleniewicz/)
 
@@ -76,27 +76,27 @@ Zaczynam od problemu i oczekiwanego działania. Dzielę system na moduły, okre�
 
 **Przykład - JobManager:** zbieranie ofert, filtrowanie, analiza i powiadomienia mają osobne zadania, ale współpracują w jednym przepływie. Rozwijam je iteracyjnie na podstawie codziennego używania aplikacji.
 
-<picture>
+<a href="assets/workflow-dark.svg#gh-dark-mode-only"><picture>
 <source media="(max-width: 600px)" srcset="assets/workflow-mobile-dark.svg">
-<img alt="Requirements, modules, implementation, integration and validation" src="assets/workflow-dark.svg#gh-dark-mode-only" width="100%">
-</picture>
-<picture>
+<img alt="Requirements, modules, implementation, integration and validation" src="assets/workflow-dark.svg" width="100%">
+</picture></a>
+<a href="assets/workflow-light.svg#gh-light-mode-only"><picture>
 <source media="(max-width: 600px)" srcset="assets/workflow-mobile-light.svg">
-<img alt="Requirements, modules, implementation, integration and validation" src="assets/workflow-light.svg#gh-light-mode-only" width="100%">
-</picture>
+<img alt="Requirements, modules, implementation, integration and validation" src="assets/workflow-light.svg" width="100%">
+</picture></a>
 
 **Główne narzędzia:** Python · JavaScript · REST APIs · Git. Moje przygotowanie z elektroniki obejmuje także pomiary, symulacje i projektowanie układów.
 
 ## Aktywność w publicznych projektach
 
-<picture>
+<a href="assets/activity-dark.svg#gh-dark-mode-only"><picture>
 <source media="(max-width: 600px)" srcset="assets/activity-mobile-dark.svg">
-<img alt="Recent changes in four selected public projects over the last 90 days" src="assets/activity-dark.svg#gh-dark-mode-only" width="100%">
-</picture>
-<picture>
+<img alt="Recent changes in four selected public projects over the last 90 days" src="assets/activity-dark.svg" width="100%">
+</picture></a>
+<a href="assets/activity-light.svg#gh-light-mode-only"><picture>
 <source media="(max-width: 600px)" srcset="assets/activity-mobile-light.svg">
-<img alt="Recent changes in four selected public projects over the last 90 days" src="assets/activity-light.svg#gh-light-mode-only" width="100%">
-</picture>
+<img alt="Recent changes in four selected public projects over the last 90 days" src="assets/activity-light.svg" width="100%">
+</picture></a>
 
 Panel obejmuje Yapper, SeeSky-tracking, portfolio i LabInc z ostatnich 90 dni, z pominięciem botów. Animacja poniżej korzysta z publicznie wyszukiwalnych commitów z ostatniego roku.
 

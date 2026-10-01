@@ -10,10 +10,10 @@ def picture(name, alt, mobile=False):
         # Keep responsive art direction separate from its theme-only fragments.
         variants=[]
         for theme in ('dark','light'):
-            variants.append(f'''<picture>
+            variants.append(f'''<a href="assets/{name}-{theme}.svg#gh-{theme}-mode-only"><picture>
 <source media="(max-width: 600px)" srcset="assets/{name}-mobile-{theme}.svg">
-<img alt="{alt}" src="assets/{name}-{theme}.svg#gh-{theme}-mode-only" width="100%">
-</picture>''')
+<img alt="{alt}" src="assets/{name}-{theme}.svg" width="100%">
+</picture></a>''')
         return '\n'.join(variants)
     return f'''<picture>
 <source media="(prefers-color-scheme: dark)" srcset="assets/{name}-dark.svg">

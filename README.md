@@ -1,12 +1,12 @@
 <!-- Copy source: scripts/build_readmes.py -->
-<picture>
+<a href="assets/header-dark.svg#gh-dark-mode-only"><picture>
 <source media="(max-width: 600px)" srcset="assets/header-mobile-dark.svg">
-<img alt="Piotr Jeleniewicz - software development and system integration" src="assets/header-dark.svg#gh-dark-mode-only" width="100%">
-</picture>
-<picture>
+<img alt="Piotr Jeleniewicz - software development and system integration" src="assets/header-dark.svg" width="100%">
+</picture></a>
+<a href="assets/header-light.svg#gh-light-mode-only"><picture>
 <source media="(max-width: 600px)" srcset="assets/header-mobile-light.svg">
-<img alt="Piotr Jeleniewicz - software development and system integration" src="assets/header-light.svg#gh-light-mode-only" width="100%">
-</picture>
+<img alt="Piotr Jeleniewicz - software development and system integration" src="assets/header-light.svg" width="100%">
+</picture></a>
 
 **English** · [Polski](README.pl.md) &nbsp; | &nbsp; [Portfolio](https://piotrjeleniewicz.com/) · [LinkedIn](https://www.linkedin.com/in/piotr-jeleniewicz/)
 
@@ -76,27 +76,27 @@ I start with the problem and expected behaviour, define module responsibilities 
 
 **Example - JobManager:** collection, filtering, research and notifications have separate responsibilities within one workflow. I improve them iteratively through daily use.
 
-<picture>
+<a href="assets/workflow-dark.svg#gh-dark-mode-only"><picture>
 <source media="(max-width: 600px)" srcset="assets/workflow-mobile-dark.svg">
-<img alt="Requirements, modules, implementation, integration and validation" src="assets/workflow-dark.svg#gh-dark-mode-only" width="100%">
-</picture>
-<picture>
+<img alt="Requirements, modules, implementation, integration and validation" src="assets/workflow-dark.svg" width="100%">
+</picture></a>
+<a href="assets/workflow-light.svg#gh-light-mode-only"><picture>
 <source media="(max-width: 600px)" srcset="assets/workflow-mobile-light.svg">
-<img alt="Requirements, modules, implementation, integration and validation" src="assets/workflow-light.svg#gh-light-mode-only" width="100%">
-</picture>
+<img alt="Requirements, modules, implementation, integration and validation" src="assets/workflow-light.svg" width="100%">
+</picture></a>
 
 **Core tools:** Python · JavaScript · REST APIs · Git. My electronics background also includes measurement, simulation and circuit-design labs.
 
 ## Public project activity
 
-<picture>
+<a href="assets/activity-dark.svg#gh-dark-mode-only"><picture>
 <source media="(max-width: 600px)" srcset="assets/activity-mobile-dark.svg">
-<img alt="Recent changes in four selected public projects over the last 90 days" src="assets/activity-dark.svg#gh-dark-mode-only" width="100%">
-</picture>
-<picture>
+<img alt="Recent changes in four selected public projects over the last 90 days" src="assets/activity-dark.svg" width="100%">
+</picture></a>
+<a href="assets/activity-light.svg#gh-light-mode-only"><picture>
 <source media="(max-width: 600px)" srcset="assets/activity-mobile-light.svg">
-<img alt="Recent changes in four selected public projects over the last 90 days" src="assets/activity-light.svg#gh-light-mode-only" width="100%">
-</picture>
+<img alt="Recent changes in four selected public projects over the last 90 days" src="assets/activity-light.svg" width="100%">
+</picture></a>
 
 The panel covers Yapper, SeeSky-tracking, portfolio and LabInc over the past 90 days, excluding bots. The arcade below uses publicly searchable commits from the past year.
 
