@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-01T15:42:55Z",
+  "updated_at": "2026-10-02T11:10:04Z",
   "window_days": 90,
   "repositories": [
     {
@@ -101,12 +101,6 @@
           "title": "Optimize gallery loading and CSS delivery",
           "date": "2026-07-04T16:00:00Z",
           "url": "https://github.com/Xcape53/portfolio/commit/217729b98908d39a2727d7c15bdf71a5cde39d11"
-        },
-        {
-          "sha": "1512453a6a02feac6c1ffcd2b1ef8bec632cbc9c",
-          "title": "Improve mobile performance and accessibility",
-          "date": "2026-07-03T16:00:00Z",
-          "url": "https://github.com/Xcape53/portfolio/commit/1512453a6a02feac6c1ffcd2b1ef8bec632cbc9c"
         }
       ],
       "release": null
@@ -125,7 +119,7 @@
       "release": null
     }
   ],
-  "commit_count": 15,
+  "commit_count": 14,
   "recent": [
     {
       "sha": "66360ba73e2002d057ca1b1e87c63cc4448874d8",
@@ -158,7 +152,7 @@
   ],
   "weeks": [
     4,
-    5,
+    4,
     0,
     0,
     0,

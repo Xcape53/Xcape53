@@ -3,9 +3,9 @@
 <rect x="1" y="1" width="598" height="548" rx="18" fill="#0d1117" stroke="#283445"/>
 <g font-family="Inter,Segoe UI,Arial,sans-serif">
 <text x="28" y="43" font-size="21" fill="#93a4bb">PUBLIC PROJECT ACTIVITY / 90 DAYS</text>
-<text x="28" y="103" font-size="38" font-weight="700" fill="#e6edf3">15 commits / 4 projects</text>
+<text x="28" y="103" font-size="38" font-weight="700" fill="#e6edf3">14 commits / 4 projects</text>
 <rect x="28" y="142" width="27" height="51" rx="3" fill="#8b5cf6" opacity="0.85"/>
-<rect x="70" y="129" width="27" height="64" rx="3" fill="#3b82f6" opacity="0.85"/>
+<rect x="70" y="142" width="27" height="51" rx="3" fill="#3b82f6" opacity="0.85"/>
 <rect x="112" y="190" width="27" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
 <rect x="154" y="190" width="27" height="3" rx="3" fill="#8b5cf6" opacity="0.16"/>
 <rect x="196" y="190" width="27" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
@@ -25,5 +25,5 @@
 <text x="28" y="404" font-size="21" fill="#e6edf3">Improve project presentation and README ...</text>
 <text x="28" y="446" font-size="17" fill="#93a4bb">portfolio / 2026-10-01</text>
 <text x="28" y="472" font-size="21" fill="#e6edf3">Clarify portfolio documentation</text>
-<text x="28" y="524" font-size="16" fill="#93a4bb">Updated 2026-10-01 UTC / bots excluded</text>
+<text x="28" y="524" font-size="16" fill="#93a4bb">Updated 2026-10-02 UTC / bots excluded</text>
 </g></svg>
