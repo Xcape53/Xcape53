@@ -3,8 +3,8 @@
 <rect x="1" y="1" width="598" height="548" rx="18" fill="#ffffff" stroke="#d8e0ec"/>
 <g font-family="Inter,Segoe UI,Arial,sans-serif">
 <text x="28" y="43" font-size="21" fill="#52667e">PUBLIC PROJECT ACTIVITY / 90 DAYS</text>
-<text x="28" y="103" font-size="38" font-weight="700" fill="#18283b">11 commits / 4 projects</text>
-<rect x="28" y="129" width="27" height="64" rx="3" fill="#8b5cf6" opacity="0.85"/>
+<text x="28" y="103" font-size="38" font-weight="700" fill="#18283b">10 commits / 4 projects</text>
+<rect x="28" y="142" width="27" height="51" rx="3" fill="#8b5cf6" opacity="0.85"/>
 <rect x="70" y="190" width="27" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
 <rect x="112" y="190" width="27" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
 <rect x="154" y="190" width="27" height="3" rx="3" fill="#8b5cf6" opacity="0.16"/>
@@ -15,8 +15,8 @@
 <rect x="364" y="180" width="27" height="13" rx="3" fill="#3b82f6" opacity="0.85"/>
 <rect x="406" y="190" width="27" height="3" rx="3" fill="#8b5cf6" opacity="0.16"/>
 <rect x="448" y="190" width="27" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
-<rect x="490" y="190" width="27" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
-<rect x="532" y="129" width="27" height="64" rx="3" fill="#8b5cf6" opacity="0.85"/>
+<rect x="490" y="129" width="27" height="64" rx="3" fill="#3b82f6" opacity="0.85"/>
+<rect x="532" y="190" width="27" height="3" rx="3" fill="#8b5cf6" opacity="0.16"/>
 <text x="28" y="242" font-size="17" fill="#52667e">portfolio / 2026-10-01</text>
 <text x="28" y="268" font-size="21" fill="#18283b">Improve project presentation and README ...</text>
 <text x="28" y="310" font-size="17" fill="#52667e">SeeSky-tracking / 2026-10-01</text>
@@ -25,5 +25,5 @@
 <text x="28" y="404" font-size="21" fill="#18283b">Improve project presentation and README ...</text>
 <text x="28" y="446" font-size="17" fill="#52667e">portfolio / 2026-10-01</text>
 <text x="28" y="472" font-size="21" fill="#18283b">Clarify portfolio documentation</text>
-<text x="28" y="524" font-size="16" fill="#52667e">Updated 2026-10-07 UTC / bots excluded</text>
+<text x="28" y="524" font-size="16" fill="#52667e">Updated 2026-10-08 UTC / bots excluded</text>
 </g></svg>
