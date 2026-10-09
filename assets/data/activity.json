@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-08T12:05:44Z",
+  "updated_at": "2026-10-09T11:57:41Z",
   "window_days": 90,
   "repositories": [
     {
@@ -84,18 +84,11 @@
     {
       "name": "LabInc",
       "url": "https://github.com/Xcape53/LabInc",
-      "commits": [
-        {
-          "sha": "b1b5a6b492b1f58b729ee47c31e7bd4a267fd927",
-          "title": "docs: rewrite project documentation in English",
-          "date": "2026-07-10T16:00:00Z",
-          "url": "https://github.com/Xcape53/LabInc/commit/b1b5a6b492b1f58b729ee47c31e7bd4a267fd927"
-        }
-      ],
+      "commits": [],
       "release": null
     }
   ],
-  "commit_count": 10,
+  "commit_count": 9,
   "recent": [
     {
       "sha": "66360ba73e2002d057ca1b1e87c63cc4448874d8",
@@ -127,7 +120,7 @@
     }
   ],
   "weeks": [
-    4,
+    3,
     0,
     0,
     0,

@@ -6,11 +6,11 @@
 <text x="34" y="43" fill="#52667e" font-size="14" letter-spacing="3">PUBLIC PROJECT ACTIVITY</text>
 <text x="1165" y="43" text-anchor="end" fill="#52667e" font-size="14">90 DAYS</text>
 <path d="M34 61H1165" stroke="#d8e0ec"/>
-<text x="34" y="123" fill="#18283b" font-size="49" font-weight="700">10</text>
+<text x="34" y="123" fill="#18283b" font-size="49" font-weight="700">9</text>
 <text x="34" y="151" fill="#52667e" font-size="16">project commits</text>
 <text x="225" y="123" fill="#18283b" font-size="49" font-weight="700">4</text>
 <text x="225" y="151" fill="#52667e" font-size="16">public projects</text>
-<rect x="35" y="192" width="18" height="61" rx="3" fill="#8b5cf6" opacity="0.85"/>
+<rect x="35" y="207" width="18" height="46" rx="3" fill="#8b5cf6" opacity="0.85"/>
 <rect x="62" y="250" width="18" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
 <rect x="89" y="250" width="18" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
 <rect x="116" y="250" width="18" height="3" rx="3" fill="#8b5cf6" opacity="0.16"/>
@@ -38,5 +38,5 @@
 <text x="483" y="239" fill="#52667e" font-size="12">portfolio / 2026-10-01</text>
 <text x="483" y="262" fill="#18283b" font-size="17">Clarify portfolio documentation</text>
 <text x="34" y="322" fill="#52667e" font-size="12">Public repositories only. Automated profile refreshes excluded.</text>
-<text x="1165" y="322" text-anchor="end" fill="#52667e" font-size="12">Updated 2026-10-08 UTC</text>
+<text x="1165" y="322" text-anchor="end" fill="#52667e" font-size="12">Updated 2026-10-09 UTC</text>
 </g></svg>
