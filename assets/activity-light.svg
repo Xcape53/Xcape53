@@ -17,8 +17,8 @@
 <rect x="143" y="250" width="18" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
 <rect x="170" y="250" width="18" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
 <rect x="197" y="250" width="18" height="3" rx="3" fill="#8b5cf6" opacity="0.16"/>
-<rect x="224" y="250" width="18" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
-<rect x="251" y="238" width="18" height="15" rx="3" fill="#3b82f6" opacity="0.85"/>
+<rect x="224" y="238" width="18" height="15" rx="3" fill="#3b82f6" opacity="0.85"/>
+<rect x="251" y="250" width="18" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
 <rect x="278" y="250" width="18" height="3" rx="3" fill="#8b5cf6" opacity="0.16"/>
 <rect x="305" y="250" width="18" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
 <rect x="332" y="177" width="18" height="76" rx="3" fill="#3b82f6" opacity="0.85"/>
@@ -38,5 +38,5 @@
 <text x="483" y="239" fill="#52667e" font-size="12">portfolio / 2026-10-01</text>
 <text x="483" y="262" fill="#18283b" font-size="17">Clarify portfolio documentation</text>
 <text x="34" y="322" fill="#52667e" font-size="12">Public repositories only. Automated profile refreshes excluded.</text>
-<text x="1165" y="322" text-anchor="end" fill="#52667e" font-size="12">Updated 2026-10-09 UTC</text>
+<text x="1165" y="322" text-anchor="end" fill="#52667e" font-size="12">Updated 2026-10-10 UTC</text>
 </g></svg>
