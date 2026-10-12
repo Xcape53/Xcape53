@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-11T11:27:34Z",
+  "updated_at": "2026-10-12T13:15:52Z",
   "window_days": 90,
   "repositories": [
     {
@@ -59,24 +59,6 @@
           "title": "Update portfolio profile and career presentation",
           "date": "2026-09-30T22:38:32Z",
           "url": "https://github.com/Xcape53/portfolio/commit/c6a85d6f3e7a4a30ab8fb88c85e15c2fe473dfe9"
-        },
-        {
-          "sha": "d5ba6c8de4f85bfe5c168be84dc54687484811d3",
-          "title": "feat: refresh favicon and SEO identity",
-          "date": "2026-07-14T01:08:38Z",
-          "url": "https://github.com/Xcape53/portfolio/commit/d5ba6c8de4f85bfe5c168be84dc54687484811d3"
-        },
-        {
-          "sha": "fe2c20b2b4e1eb87b562940d969e389e7b22a116",
-          "title": "fix: sync coding activity with GitHub",
-          "date": "2026-07-13T23:10:08Z",
-          "url": "https://github.com/Xcape53/portfolio/commit/fe2c20b2b4e1eb87b562940d969e389e7b22a116"
-        },
-        {
-          "sha": "ab2d4a5c0efa2d0ef0c7a8f1364ed35734262940",
-          "title": "fix: restore original banner headline",
-          "date": "2026-07-13T21:27:37Z",
-          "url": "https://github.com/Xcape53/portfolio/commit/ab2d4a5c0efa2d0ef0c7a8f1364ed35734262940"
         }
       ],
       "release": null
@@ -88,7 +70,7 @@
       "release": null
     }
   ],
-  "commit_count": 9,
+  "commit_count": 6,
   "recent": [
     {
       "sha": "66360ba73e2002d057ca1b1e87c63cc4448874d8",
@@ -120,7 +102,7 @@
     }
   ],
   "weeks": [
-    3,
+    0,
     0,
     0,
     0,
