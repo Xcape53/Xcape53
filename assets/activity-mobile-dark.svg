@@ -10,8 +10,8 @@
 <rect x="154" y="190" width="27" height="3" rx="3" fill="#8b5cf6" opacity="0.16"/>
 <rect x="196" y="190" width="27" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
 <rect x="238" y="190" width="27" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
-<rect x="280" y="190" width="27" height="3" rx="3" fill="#8b5cf6" opacity="0.16"/>
-<rect x="322" y="180" width="27" height="13" rx="3" fill="#3b82f6" opacity="0.85"/>
+<rect x="280" y="180" width="27" height="13" rx="3" fill="#8b5cf6" opacity="0.85"/>
+<rect x="322" y="190" width="27" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
 <rect x="364" y="190" width="27" height="3" rx="3" fill="#3b82f6" opacity="0.16"/>
 <rect x="406" y="190" width="27" height="3" rx="3" fill="#8b5cf6" opacity="0.16"/>
 <rect x="448" y="129" width="27" height="64" rx="3" fill="#3b82f6" opacity="0.85"/>
@@ -25,5 +25,5 @@
 <text x="28" y="404" font-size="21" fill="#e6edf3">Add standalone Turf Matchmaking GUI demo</text>
 <text x="28" y="446" font-size="17" fill="#93a4bb">portfolio / 2026-10-01</text>
 <text x="28" y="472" font-size="21" fill="#e6edf3">Improve project presentation and README ...</text>
-<text x="28" y="524" font-size="16" fill="#93a4bb">Updated 2026-10-16 UTC / bots excluded</text>
+<text x="28" y="524" font-size="16" fill="#93a4bb">Updated 2026-10-17 UTC / bots excluded</text>
 </g></svg>
