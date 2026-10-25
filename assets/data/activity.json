@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-22T10:17:56Z",
+  "updated_at": "2026-10-25T09:53:31Z",
   "window_days": 90,
   "repositories": [
     {
@@ -42,6 +42,12 @@
       "name": "portfolio",
       "url": "https://github.com/Xcape53/portfolio",
       "commits": [
+        {
+          "sha": "0e7e7b766a0aa87764d853707b2c29eadbbfbe34",
+          "title": "fix: simplify Polish CV navigation",
+          "date": "2026-10-24T20:55:20Z",
+          "url": "https://github.com/Xcape53/portfolio/commit/0e7e7b766a0aa87764d853707b2c29eadbbfbe34"
+        },
         {
           "sha": "fb4d5971eda3bfd601643ce77b6e9d655358ad26",
           "title": "Show Turf GUI source version in the upper-left corner",
@@ -88,8 +94,15 @@
       "release": null
     }
   ],
-  "commit_count": 9,
+  "commit_count": 10,
   "recent": [
+    {
+      "sha": "0e7e7b766a0aa87764d853707b2c29eadbbfbe34",
+      "title": "fix: simplify Polish CV navigation",
+      "date": "2026-10-24T20:55:20Z",
+      "url": "https://github.com/Xcape53/portfolio/commit/0e7e7b766a0aa87764d853707b2c29eadbbfbe34",
+      "repo": "portfolio"
+    },
     {
       "sha": "fb4d5971eda3bfd601643ce77b6e9d655358ad26",
       "title": "Show Turf GUI source version in the upper-left corner",
@@ -110,13 +123,6 @@
       "date": "2026-10-12T20:59:59Z",
       "url": "https://github.com/Xcape53/portfolio/commit/4e6c8b6130d4f03dbedcdae92611ed828a334938",
       "repo": "portfolio"
-    },
-    {
-      "sha": "66360ba73e2002d057ca1b1e87c63cc4448874d8",
-      "title": "Improve project presentation and README navigation",
-      "date": "2026-10-01T00:54:24Z",
-      "url": "https://github.com/Xcape53/portfolio/commit/66360ba73e2002d057ca1b1e87c63cc4448874d8",
-      "repo": "portfolio"
     }
   ],
   "weeks": [
@@ -125,13 +131,13 @@
     0,
     0,
     0,
-    0,
     1,
+    0,
     0,
     0,
     5,
     0,
     3,
-    0
+    1
   ]
 }
