@@ -50,11 +50,12 @@ def pulse(pid, dur, delay, color=WHITE):
 
 DEFS = (f'<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">'
         f'<path d="M1 1L9 5L1 9" fill="none" stroke="{P}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>'
-        f'<radialGradient id="glow" cx=".12" cy="0" r=".9"><stop offset="0" stop-color="{GLOW}" stop-opacity=".9"/><stop offset="1" stop-color="{NAVY}" stop-opacity="0"/></radialGradient></defs>')
+        f'<radialGradient id="glow" cx=".12" cy="0" r=".9"><stop offset="0" stop-color="{GLOW}" stop-opacity=".9"/><stop offset="1" stop-color="{NAVY}" stop-opacity="0"/></radialGradient>'
+        f'<radialGradient id="glowbr" cx="1" cy="1" r="1.1"><stop offset="0" stop-color="#1450c8" stop-opacity=".85"/><stop offset=".45" stop-color="{GLOW}" stop-opacity=".45"/><stop offset="1" stop-color="{NAVY}" stop-opacity="0"/></radialGradient></defs>')
 
-def frame(w, h):
+def frame(w, h, glow="glow"):
     return [DEFS, f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="16" fill="{NAVY}" stroke="{LINE}" stroke-width="1.5"/>',
-            f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="16" fill="url(#glow)"/>']
+            f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="16" fill="url(#{glow})"/>']
 
 def name_block(c, x, y, size, kicker_size):
     return [text(c["kicker"], x + 2, y, kicker_size, "sans6", P, ls=kicker_size / 3.6)[0],
@@ -185,24 +186,6 @@ def activity():
     pub = json.load(urllib.request.urlopen(f"https://api.github.com/users/{sk.USER}", timeout=20))["public_repos"]
     return dict(total=cc["contributionCalendar"]["totalContributions"], commits=cc["totalCommitContributions"], pub=pub, weeks=weeks)
 
-def api(url):
-    req = urllib.request.Request("https://api.github.com" + url, headers={"Authorization": "Bearer " + gh_token(), "Accept": "application/vnd.github+json"})
-    return json.load(urllib.request.urlopen(req, timeout=30))
-
-def commit_hours():
-    # godziny commitów z publicznych repozytoriów, ostatnie 12 miesięcy, czas polski (CEST kwiecień-październik, ponytail: przybliżenie DST)
-    since = (datetime.now(timezone.utc) - timedelta(days=365)).strftime("%Y-%m-%dT%H:%M:%SZ")
-    hours = [0] * 24
-    for r in api(f"/users/{sk.USER}/repos?per_page=100&type=owner"):
-        if r["fork"] or r["private"]: continue
-        for page in range(1, 11):
-            batch = api(f"/repos/{sk.USER}/{r['name']}/commits?author={sk.USER}&since={since}&per_page=100&page={page}")
-            for c in batch:
-                d = datetime.strptime(c["commit"]["author"]["date"], "%Y-%m-%dT%H:%M:%SZ")
-                hours[(d.hour + (2 if 4 <= d.month <= 10 else 1)) % 24] += 1
-            if len(batch) < 100: break
-    return hours
-
 MONTHS = {"en": "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(), "pl": "sty lut mar kwi maj cze lip sie wrz paź lis gru".split()}
 
 def nice(v):
@@ -246,7 +229,7 @@ def build_stats(lang, data, repos):
     c = COPY[lang]; when = lambda d: d.strftime("%d.%m") if lang == "pl" else d.strftime("%b %d")
     nums = (data["total"], data["commits"], data["pub"])
     h = 360
-    b = frame(W, h) + [text(c["activity"], 44, 62, 14, "sans6", P, ls=3.6)[0]]
+    b = frame(W, h, "glowbr") + [text(c["activity"], 44, 62, 14, "sans6", P, ls=3.6)[0]]
     for i, (v, l) in enumerate(zip(nums, c["stats"])):
         b += [text(str(v), 44 + i * 140, 150, 44, "sans6", WHITE)[0], text(l, 46 + i * 140, 178, 14, "sans", MUTED)[0]]
     b += chart(data["weeks"], lang, 560, 60, 600, 190) + [text(c["weeks"], 44, 230, 13, "mono", MUTED)[0],
@@ -254,7 +237,7 @@ def build_stats(lang, data, repos):
           text(f'{c["now"]}: ' + "  ·  ".join(f"{n} {when(d)}" for n, d in repos), 44, 330, 17, "mono", TEXT)[0]]
     svg(f"stats-{lang}.svg", h, b, c["activity"])
     h = 540
-    b = frame(M, h) + [text(c["activity"], 30, 56, 13, "sans6", P, ls=2.6)[0]]
+    b = frame(M, h, "glowbr") + [text(c["activity"], 30, 56, 13, "sans6", P, ls=2.6)[0]]
     for i, (v, l) in enumerate(zip(nums, c["stats"])):
         b += [text(str(v), 30 + i * 182, 124, 42, "sans6", WHITE)[0], text(l, 32 + i * 182, 152, 15, "sans", MUTED)[0]]
     b += chart(data["weeks"], lang, 74, 190, M - 104, 180, every=2) + [f'<line x1="30" y1="420" x2="{M - 30}" y2="420" stroke="{LINE}" stroke-width="1.2"/>']
@@ -281,42 +264,20 @@ def legend(lang, x, y):
     return out + [text(t["more"], x + 5 * 18 + 6, y + 12, 12, "mono", MUTED)[0]]
 
 def build_heat(lang, data):
-    t, wk = TITLES[lang], data["weeks"][-53:]
-    h = 270
-    b = frame(W, h) + [ANIM, text(t["heat"], 44, 62, 14, "sans6", P, ls=3.6)[0]] + heat(wk, lang, 44, 100) + legend(lang, 1040, 244)
-    svg(f"heat-{lang}.svg", h, b, t["heat"])
-    wk = data["weeks"][-26:]
-    h = 290
-    b = frame(M, h) + [ANIM, text(t["heat"], 27, 56, 13, "sans6", P, ls=2.6)[0]] + heat(wk, lang, 27, 96) + legend(lang, 460, 264)
-    svg(f"heat-{lang}-m.svg", h, b, t["heat"], M)
-
-def bars(hours, x0, y0, w, h, every=3):
-    mx, bw = max(hours) or 1, w / 24
-    out = [f'<defs><linearGradient id="bg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="{P}"/><stop offset="1" stop-color="{S}"/></linearGradient></defs>',
-           f'<line x1="{x0}" y1="{y0 + h}" x2="{x0 + w}" y2="{y0 + h}" stroke="{LINE}" stroke-width="1.2"/>']
-    for i, v in enumerate(hours):
-        bh = max(2, v / mx * h)
-        out.append(f'<rect class="c" style="animation-delay:{.2 + i * .04:.2f}s" x="{x0 + i * bw + bw * .18:.1f}" y="{y0 + h - bh:.1f}" width="{bw * .64:.1f}" height="{bh:.1f}" rx="3" fill="url(#bg)" opacity="{1 if v else .25}"/>')
-        if i % every == 0:
-            out.append(text(f"{i:02d}", x0 + i * bw + bw / 2, y0 + h + 22, 12, "mono", MUTED, anchor="middle")[0])
-    return out
-
-def build_hours(lang, hours):
-    t = TITLES[lang]; peak = max(range(24), key=lambda i: hours[i])
-    note = f'{t["peak"]}: {peak:02d}:00-{(peak + 1) % 24:02d}:00 · {sum(hours)} {t["unit"]}'
-    h = 280
-    b = frame(W, h) + [ANIM, text(t["hours"], 44, 62, 14, "sans6", P, ls=3.6)[0], text(note, 1156, 62, 14, "mono", MUTED, anchor="end")[0]] + bars(hours, 44, 90, 1112, 140)
-    svg(f"hours-{lang}.svg", h, b, t["hours"])
-    h = 320
-    b = frame(M, h) + [ANIM, text(t["hours"], 30, 56, 13, "sans6", P, ls=2.6)[0], text(note, 30, 84, 13, "mono", MUTED)[0]] + bars(hours, 30, 112, M - 60, 150, every=6)
-    svg(f"hours-{lang}-m.svg", h, b, t["hours"], M)
+    # bez tła i tytułu: sama siatka, wyśrodkowana, przezroczysta
+    t, step = TITLES[lang], 21
+    for n, w, name in ((53, W, f"heat-{lang}.svg"), (26, M, f"heat-{lang}-m.svg")):
+        wk, gw = data["weeks"][-n:], n * step - 4
+        x0 = (w - gw) / 2
+        b = [ANIM] + heat(wk, lang, x0, 30) + legend(lang, x0 + gw - 5 * 18 - 40, 194)
+        svg(name, 214, b, t["heat"], w)
 
 if __name__ == "__main__":
     what = sys.argv[1] if len(sys.argv) > 1 else "all"
     if what in ("flow", "all"):
         for lang in COPY: build_flow(lang); build_flow_m(lang)
     if what in ("cards", "stats", "all"):
-        data, repos, hours = activity(), latest_repos(), commit_hours()
+        data, repos = activity(), latest_repos()
         for lang in COPY:
             if what != "stats": build_header(lang); build_header_m(lang); build_cards(lang)
-            build_stats(lang, data, repos); build_heat(lang, data); build_hours(lang, hours)
+            build_stats(lang, data, repos); build_heat(lang, data)

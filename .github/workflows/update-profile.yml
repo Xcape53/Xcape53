@@ -40,7 +40,7 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify activity filtering
         run: python -m unittest discover -s tests -v
-      - name: Refresh activity, calendar, commit hours and the "now" line
+      - name: Refresh activity, calendar and the "now" line
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -50,7 +50,7 @@ jobs:
         run: python scripts/validate.py
       - name: Save updated artwork
         run: |
-          git add assets/modern/stats-*.svg assets/modern/heat-*.svg assets/modern/hours-*.svg
+          git add assets/modern/stats-*.svg assets/modern/heat-*.svg
           if git diff --cached --quiet; then
             echo "Public artwork is already current."
             exit 0

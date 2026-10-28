@@ -1,4 +1,4 @@
-<!-- Artwork: python scripts/build_modern.py cards (activity, calendar and hours refresh daily) -->
+<!-- Artwork: python scripts/build_modern.py cards (calendar and activity refresh daily) -->
 <a href="https://piotrjeleniewicz.com/en/"><picture><source media="(max-width: 600px)" srcset="assets/modern/header-en-m.svg"><img src="assets/modern/header-en.svg" alt="Piotr Jeleniewicz" width="100%"></picture></a>
 
 I build applications and automation tools that connect APIs, data and AI services. I'm in my final semester of Electronics and Telecommunications at Gdańsk University of Technology, and I've been into automation since primary school.
@@ -9,8 +9,6 @@ I build applications and automation tools that connect APIs, data and AI service
 
 <a href="https://piotrjeleniewicz.com/en/#projects"><picture><source media="(max-width: 600px)" srcset="assets/modern/cards-en-m.svg"><img src="assets/modern/cards-en.svg" alt="Projects: JobManager, SeeSky, LabInc, Yapper" width="100%"></picture></a>
 
-<a href="https://github.com/Xcape53?tab=repositories&sort=updated"><picture><source media="(max-width: 600px)" srcset="assets/modern/stats-en-m.svg"><img src="assets/modern/stats-en.svg" alt="Contributions in the last 12 months with monthly axis, and my latest public pushes" width="100%"></picture></a>
-
 <picture><source media="(max-width: 600px)" srcset="assets/modern/heat-en-m.svg"><img src="assets/modern/heat-en.svg" alt="Contribution calendar for the last 12 months" width="100%"></picture>
 
-<picture><source media="(max-width: 600px)" srcset="assets/modern/hours-en-m.svg"><img src="assets/modern/hours-en.svg" alt="Hours of the day when I commit" width="100%"></picture>
+<a href="https://github.com/Xcape53?tab=repositories&sort=updated"><picture><source media="(max-width: 600px)" srcset="assets/modern/stats-en-m.svg"><img src="assets/modern/stats-en.svg" alt="Contributions in the last 12 months with monthly axis, and my latest public pushes" width="100%"></picture></a>
