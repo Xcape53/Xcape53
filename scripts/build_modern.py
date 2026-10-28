@@ -31,14 +31,14 @@ COPY = {
            "rows": [("JobManager", "Listings from 8 job portals, offers researched by an LLM", "Node.js · LLM", "url(#jm)"),
                     ("SeeSky", "Software for the SimLE radio telescope", "Python · Flask · Astropy", "#d6336c"),
                     ("LabInc", "Incremental game about chemical production", "Java · Swing", "#007acc"),
-                    ("Yapper", "Lightweight speech-to-text app", "Python · PyQt6", "#8a8a93")]},
+                    ("Yapper", "Lightweight speech-to-text app", "Python · PyQt6", "#4b4b55")]},
     "pl": {"kicker": "TWORZENIE OPROGRAMOWANIA I INTEGRACJA SYSTEMÓW", "me": "ja", "problem": "problem", "works": "działające narzędzia",
            "loop": "codzienne użycie -> poprawki", "projects": "PROJEKTY", "activity": "AKTYWNOŚĆ · OSTATNIE 12 MIESIĘCY", "now": "teraz",
            "stats": ("kontrybucji", "commitów", "publicznych repo"), "weeks": "kontrybucje tygodniowo",
            "rows": [("JobManager", "Oferty z 8 portali, analiza modelem językowym", "Node.js · LLM", "url(#jm)"),
                     ("SeeSky", "Oprogramowanie radioteleskopu SimLE", "Python · Flask · Astropy", "#d6336c"),
                     ("LabInc", "Gra inkrementalna o produkcji chemicznej", "Java · Swing", "#007acc"),
-                    ("Yapper", "Lekka aplikacja speech-to-text", "Python · PyQt6", "#8a8a93")]},
+                    ("Yapper", "Lekka aplikacja speech-to-text", "Python · PyQt6", "#4b4b55")]},
 }
 
 # ---------- czyste kształty ----------
