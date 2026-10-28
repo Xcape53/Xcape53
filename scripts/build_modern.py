@@ -27,17 +27,17 @@ COPY = {
     "en": {"kicker": "SOFTWARE DEVELOPMENT & SYSTEM INTEGRATION", "me": "me", "problem": "problem", "works": "working tools",
            "loop": "daily use -> fixes", "projects": "PROJECTS", "activity": "ACTIVITY · LAST 12 MONTHS", "now": "now",
            "stats": ("contributions", "commits", "public repos"), "weeks": "weekly contributions",
-           "rows": [("JobManager", "Listings from 8 job portals, offers researched by an LLM", "Node.js · LLM", A1),
-                    ("SeeSky", "Software for the SimLE radio telescope", "Python · Flask · Astropy", A4),
-                    ("LabInc", "Incremental game about chemical production", "Java · Swing", A2),
-                    ("Yapper", "Lightweight speech-to-text app", "Python · PyQt6", A3)]},
+           "rows": [("JobManager", "Listings from 8 job portals, offers researched by an LLM", "Node.js · LLM", "url(#jm)"),
+                    ("SeeSky", "Software for the SimLE radio telescope", "Python · Flask · Astropy", "#d6336c"),
+                    ("LabInc", "Incremental game about chemical production", "Java · Swing", "#007acc"),
+                    ("Yapper", "Lightweight speech-to-text app", "Python · PyQt6", "#8a8a93")]},
     "pl": {"kicker": "TWORZENIE OPROGRAMOWANIA I INTEGRACJA SYSTEMÓW", "me": "ja", "problem": "problem", "works": "działające narzędzia",
            "loop": "codzienne użycie -> poprawki", "projects": "PROJEKTY", "activity": "AKTYWNOŚĆ · OSTATNIE 12 MIESIĘCY", "now": "teraz",
            "stats": ("kontrybucji", "commitów", "publicznych repo"), "weeks": "kontrybucje tygodniowo",
-           "rows": [("JobManager", "Oferty z 8 portali, analiza modelem językowym", "Node.js · LLM", A1),
-                    ("SeeSky", "Oprogramowanie radioteleskopu SimLE", "Python · Flask · Astropy", A4),
-                    ("LabInc", "Gra inkrementalna o produkcji chemicznej", "Java · Swing", A2),
-                    ("Yapper", "Lekka aplikacja speech-to-text", "Python · PyQt6", A3)]},
+           "rows": [("JobManager", "Oferty z 8 portali, analiza modelem językowym", "Node.js · LLM", "url(#jm)"),
+                    ("SeeSky", "Oprogramowanie radioteleskopu SimLE", "Python · Flask · Astropy", "#d6336c"),
+                    ("LabInc", "Gra inkrementalna o produkcji chemicznej", "Java · Swing", "#007acc"),
+                    ("Yapper", "Lekka aplikacja speech-to-text", "Python · PyQt6", "#8a8a93")]},
 }
 
 # ---------- czyste kształty ----------
@@ -57,7 +57,7 @@ DEFS = (f'<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidt
         f'<path d="M1 1L9 5L1 9" fill="none" stroke="{P}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>'
         f'<radialGradient id="glow" cx=".12" cy="0" r=".9"><stop offset="0" stop-color="{GLOW}" stop-opacity=".9"/><stop offset="1" stop-color="{NAVY}" stop-opacity="0"/></radialGradient>'
                 f'<radialGradient id="glowbr" cx="1" cy="1" r="1.1"><stop offset="0" stop-color="{GLOW}" stop-opacity=".95"/><stop offset=".5" stop-color="{GLOW}" stop-opacity=".35"/><stop offset="1" stop-color="{NAVY}" stop-opacity="0"/></radialGradient>'
-        f'<linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{A1}"/><stop offset="1" stop-color="{A4}"/></linearGradient>'
+        f'<linearGradient id="jm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3af555"/><stop offset="1" stop-color="#29ed81"/></linearGradient><linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{A1}"/><stop offset="1" stop-color="{A4}"/></linearGradient>'
         f'<filter id="neon" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>')
 
 def frame(w, h, glow="glow"):
@@ -119,7 +119,7 @@ def build_flow_m(lang):
 # ---------- C: karty + aktywność ----------
 def card(x, y, w, h, n, d, t, col, big=False):
     s = 1.12 if big else 1
-    out = [box(x, y, w, h, stroke="url(#edge)", fill=NAVY, sw=1.5, r=14, op=.45), f'<rect x="{x + 22}" y="{y + 22}" width="38" height="4" rx="2" fill="url(#edge)" filter="url(#neon)"/>',
+    out = [box(x, y, w, h, stroke="url(#edge)", fill=NAVY, sw=1.5, r=14, op=.45), f'<rect x="{x + 22}" y="{y + 22}" width="38" height="4" rx="2" fill="{col}" filter="url(#neon)"/>',
            text(n, x + 22, y + 64, 26 * s, "sans6", WHITE)[0], text(t, x + 22, y + h - 24, 14.5 * s, "mono", P)[0]]
     line, lines = "", []
     for word in d.split(" "):   # opis łamany do szerokości karty
@@ -167,7 +167,7 @@ def build_header(lang):
          ln(0, prompt("whoami", 44, 112)), ln(1, text("PIOTR JELENIEWICZ", 42, 176, 54, "display", WHITE)[0]),
          ln(2, prompt("cat role.txt", 44, 226)), ln(3, text(ROLE[lang], 44, 262, 22, "sans", TEXT)[0]),
          ln(4, text("$", 44, 304, 19, "mono", P)[0] + f'<rect class="cur" x="68" y="288" width="11" height="20" fill="{P}" filter="url(#neon)"/>'),
-         f'<image href="{logo_uri()}" x="930" y="92" width="200" height="200"/>', f'<circle cx="1030" cy="192" r="99.5" fill="none" stroke="url(#edge)" stroke-opacity=".7" stroke-width="1.5"/>']
+         f'<image href="{logo_uri()}" x="930" y="92" width="200" height="200"/>', f'<circle cx="1030" cy="192" r="97.5" fill="none" stroke="url(#edge)" stroke-opacity=".7" stroke-width="1.5"/>']
     svg(f"header-{lang}.svg", h, b, "Piotr Jeleniewicz")
 
 def build_header_m(lang):
