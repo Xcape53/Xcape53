@@ -119,7 +119,7 @@ def build_flow_m(lang):
 # ---------- C: karty + aktywność ----------
 def card(x, y, w, h, n, d, t, col, big=False):
     s = 1.12 if big else 1
-    out = [box(x, y, w, h, stroke="url(#edge)", fill=NAVY, sw=1.5, r=14, op=.45), f'<rect x="{x + 22}" y="{y + 22}" width="38" height="4" rx="2" fill="{col}" filter="url(#neon)"/>',
+    out = [box(x, y, w, h, stroke="url(#edge)", fill=NAVY, sw=1.5, r=14, op=.45), f'<rect x="{x + 22}" y="{y + 22}" width="38" height="4" rx="2" fill="url(#edge)" filter="url(#neon)"/>',
            text(n, x + 22, y + 64, 26 * s, "sans6", WHITE)[0], text(t, x + 22, y + h - 24, 14.5 * s, "mono", P)[0]]
     line, lines = "", []
     for word in d.split(" "):   # opis łamany do szerokości karty
@@ -167,7 +167,7 @@ def build_header(lang):
          ln(0, prompt("whoami", 44, 112)), ln(1, text("PIOTR JELENIEWICZ", 42, 176, 54, "display", WHITE)[0]),
          ln(2, prompt("cat role.txt", 44, 226)), ln(3, text(ROLE[lang], 44, 262, 22, "sans", TEXT)[0]),
          ln(4, text("$", 44, 304, 19, "mono", P)[0] + f'<rect class="cur" x="68" y="288" width="11" height="20" fill="{P}" filter="url(#neon)"/>'),
-         f'<image href="{logo_uri()}" x="930" y="92" width="200" height="200"/>', f'<circle cx="1030" cy="192" r="112" fill="none" stroke="{LINE}" stroke-width="1.5"/>']
+         f'<image href="{logo_uri()}" x="930" y="92" width="200" height="200"/>', f'<circle cx="1030" cy="192" r="99.5" fill="none" stroke="url(#edge)" stroke-opacity=".7" stroke-width="1.5"/>']
     svg(f"header-{lang}.svg", h, b, "Piotr Jeleniewicz")
 
 def build_header_m(lang):
