@@ -13,8 +13,13 @@ from datetime import datetime, timedelta, timezone
 
 _spec = importlib.util.spec_from_file_location("sk", Path(__file__).with_name("build_sketch.py"))
 sk = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(sk)
-text, svg, logo_uri, latest_repos = sk.text, sk.svg, sk.logo_uri, sk.latest_repos
+text, svg, latest_repos = sk.text, sk.svg, sk.latest_repos
 NAVY, GLOW, PANEL, TEXT, WHITE, P, S, W, M = sk.NAVY, sk.GLOW, sk.PANEL, sk.TEXT, sk.WHITE, sk.P, sk.S, sk.W, sk.M
+# paleta z awatara na GitHubie (fioletowy neon na ciemnym tle), nie z niebieskiej favicony strony
+P, S, GLOW = "#7a5cff", "#a058ff", "#351f79"
+A1, A2, A3, A4 = "#4d3fdb", "#5f37ee", "#7237d7", "#a058ff"
+def logo_uri():
+    return "data:image/png;base64," + __import__("base64").b64encode((Path(__file__).resolve().parents[1] / "assets/modern-src/avatar-240.png").read_bytes()).decode()
 MUTED, LINE = "#6b7686", "#1d2b48"
 sk.OUT = Path(__file__).resolve().parents[1] / "assets" / "modern"
 
@@ -22,17 +27,17 @@ COPY = {
     "en": {"kicker": "SOFTWARE DEVELOPMENT & SYSTEM INTEGRATION", "me": "me", "problem": "problem", "works": "working tools",
            "loop": "daily use -> fixes", "projects": "PROJECTS", "activity": "ACTIVITY · LAST 12 MONTHS", "now": "now",
            "stats": ("contributions", "commits", "public repos"), "weeks": "weekly contributions",
-           "rows": [("JobManager", "Listings from 8 job portals, offers researched by an LLM", "Node.js · LLM", "#2c7ffe"),
-                    ("SeeSky", "Software for the SimLE radio telescope", "Python · Flask · Astropy", S),
-                    ("LabInc", "Incremental game about chemical production", "Java · Swing", "#4a5cff"),
-                    ("Yapper", "Lightweight speech-to-text app", "Python · PyQt6", "#8b6cff")]},
+           "rows": [("JobManager", "Listings from 8 job portals, offers researched by an LLM", "Node.js · LLM", A1),
+                    ("SeeSky", "Software for the SimLE radio telescope", "Python · Flask · Astropy", A4),
+                    ("LabInc", "Incremental game about chemical production", "Java · Swing", A2),
+                    ("Yapper", "Lightweight speech-to-text app", "Python · PyQt6", A3)]},
     "pl": {"kicker": "TWORZENIE OPROGRAMOWANIA I INTEGRACJA SYSTEMÓW", "me": "ja", "problem": "problem", "works": "działające narzędzia",
            "loop": "codzienne użycie -> poprawki", "projects": "PROJEKTY", "activity": "AKTYWNOŚĆ · OSTATNIE 12 MIESIĘCY", "now": "teraz",
            "stats": ("kontrybucji", "commitów", "publicznych repo"), "weeks": "kontrybucje tygodniowo",
-           "rows": [("JobManager", "Oferty z 8 portali, analiza modelem językowym", "Node.js · LLM", "#2c7ffe"),
-                    ("SeeSky", "Oprogramowanie radioteleskopu SimLE", "Python · Flask · Astropy", S),
-                    ("LabInc", "Gra inkrementalna o produkcji chemicznej", "Java · Swing", "#4a5cff"),
-                    ("Yapper", "Lekka aplikacja speech-to-text", "Python · PyQt6", "#8b6cff")]},
+           "rows": [("JobManager", "Oferty z 8 portali, analiza modelem językowym", "Node.js · LLM", A1),
+                    ("SeeSky", "Oprogramowanie radioteleskopu SimLE", "Python · Flask · Astropy", A4),
+                    ("LabInc", "Gra inkrementalna o produkcji chemicznej", "Java · Swing", A2),
+                    ("Yapper", "Lekka aplikacja speech-to-text", "Python · PyQt6", A3)]},
 }
 
 # ---------- czyste kształty ----------
@@ -51,15 +56,13 @@ def pulse(pid, dur, delay, color=WHITE):
 DEFS = (f'<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">'
         f'<path d="M1 1L9 5L1 9" fill="none" stroke="{P}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>'
         f'<radialGradient id="glow" cx=".12" cy="0" r=".9"><stop offset="0" stop-color="{GLOW}" stop-opacity=".9"/><stop offset="1" stop-color="{NAVY}" stop-opacity="0"/></radialGradient>'
-        f'<radialGradient id="glowv" cx="1" cy="0" r=".8"><stop offset="0" stop-color="#2b1478" stop-opacity=".7"/><stop offset="1" stop-color="{NAVY}" stop-opacity="0"/></radialGradient>'
-        f'<radialGradient id="glowbr" cx="1" cy="1" r="1.1"><stop offset="0" stop-color="#3a2fd8" stop-opacity=".85"/><stop offset=".45" stop-color="#14248a" stop-opacity=".5"/><stop offset="1" stop-color="{NAVY}" stop-opacity="0"/></radialGradient>'
-        f'<linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{P}"/><stop offset="1" stop-color="{S}"/></linearGradient>'
+                f'<radialGradient id="glowbr" cx="1" cy="1" r="1.1"><stop offset="0" stop-color="{GLOW}" stop-opacity=".95"/><stop offset=".5" stop-color="{GLOW}" stop-opacity=".35"/><stop offset="1" stop-color="{NAVY}" stop-opacity="0"/></radialGradient>'
+        f'<linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{A1}"/><stop offset="1" stop-color="{A4}"/></linearGradient>'
         f'<filter id="neon" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>')
 
 def frame(w, h, glow="glow"):
-    extra = f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="16" fill="url(#glowv)"/>' if glow == "glow" else ""
     return [DEFS, f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="16" fill="{NAVY}"/>',
-            f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="16" fill="url(#{glow})"/>' + extra,
+            f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="16" fill="url(#{glow})"/>',
             f'<rect x="1.5" y="1.5" width="{w - 3}" height="{h - 3}" rx="16" fill="none" stroke="url(#edge)" stroke-opacity=".55" stroke-width="1.5"/>']
 
 def name_block(c, x, y, size, kicker_size):
@@ -249,7 +252,7 @@ def build_stats(lang, data, repos):
     b += [text((f'{c["now"]}: ' if i == 0 else "") + f"{n} · {when(d)}", 30 if i == 0 else 30 + text(c["now"] + ": ", 0, 0, 18, "mono")[1], 458 + i * 32, 18, "mono", TEXT)[0] for i, (n, d) in enumerate(repos)]
     svg(f"stats-{lang}-m.svg", h, b, c["activity"], M)
 
-LEVELS = ("#0f1a2e", "#123a86", "#1f5fd6", P, S)
+LEVELS = ("#0f1a2e", "#2d1f6e", A1, A3, A4)
 def level(v):
     return 0 if v == 0 else 1 if v <= 2 else 2 if v <= 5 else 3 if v <= 10 else 4
 
