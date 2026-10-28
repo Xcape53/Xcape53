@@ -1,7 +1,7 @@
 <!-- Artwork: python scripts/build_modern.py cards (calendar and activity refresh daily) -->
 <p align="right"><a href="README.pl.md"><img src="https://img.shields.io/badge/czytaj-po%20polsku-7237d7?style=flat-square&labelColor=020816" alt="Czytaj po polsku"></a></p>
 
-<a href="https://piotrjeleniewicz.com/en/"><picture><source media="(max-width: 600px)" srcset="assets/modern/header-en-m.svg?v=a3981b81"><img src="assets/modern/header-en.svg?v=dcc36f9a" alt="Piotr Jeleniewicz" width="100%"></picture></a>
+<a href="https://piotrjeleniewicz.com/en/"><picture><source media="(max-width: 600px)" srcset="assets/modern/header-en-m.svg?v=29e1052b"><img src="assets/modern/header-en.svg?v=a2d6ef95" alt="Piotr Jeleniewicz" width="100%"></picture></a>
 
 I build applications and automation tools that connect APIs, data and AI services. I'm in my final semester of Electronics and Telecommunications at Gdańsk University of Technology, and I've been into automation since primary school.
 
@@ -13,4 +13,4 @@ I build applications and automation tools that connect APIs, data and AI service
 
 <picture><source media="(max-width: 600px)" srcset="assets/modern/heat-en-m.svg?v=2863d349"><img src="assets/modern/heat-en.svg?v=16d6d883" alt="Contribution calendar for the last 12 months" width="100%"></picture>
 
-<a href="https://github.com/Xcape53?tab=repositories&sort=updated"><picture><source media="(max-width: 600px)" srcset="assets/modern/stats-en-m.svg?v=dd5e61b5"><img src="assets/modern/stats-en.svg?v=c32a2cb5" alt="Contributions in the last 12 months with monthly axis, and my latest public pushes" width="100%"></picture></a>
+<a href="https://github.com/Xcape53?tab=repositories&sort=updated"><picture><source media="(max-width: 600px)" srcset="assets/modern/stats-en-m.svg?v=58097866"><img src="assets/modern/stats-en.svg?v=8d0d2aa6" alt="Contributions in the last 12 months with monthly axis, and my latest public pushes" width="100%"></picture></a>

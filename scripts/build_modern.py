@@ -18,6 +18,7 @@ NAVY, GLOW, PANEL, TEXT, WHITE, P, S, W, M = sk.NAVY, sk.GLOW, sk.PANEL, sk.TEXT
 # paleta z awatara na GitHubie (fioletowy neon na ciemnym tle), nie z niebieskiej favicony strony
 P, S, GLOW = "#7a5cff", "#a058ff", "#351f79"
 A1, A2, A3, A4 = "#4d3fdb", "#5f37ee", "#7237d7", "#a058ff"
+B, BS = "#2c7ffe", "#642efd"   # niebieski akcent z logo strony (gradient #2c7ffe -> #642efd)
 def logo_uri():
     return "data:image/png;base64," + __import__("base64").b64encode((Path(__file__).resolve().parents[1] / "assets/modern-src/avatar-240.png").read_bytes()).decode()
 MUTED, LINE = "#6b7686", "#1d2b48"
@@ -155,10 +156,10 @@ def ln(i, body, step=.55):
     return f'<g class="ln" style="animation-delay:{.3 + i * step:.2f}s">{body}</g>'
 
 def prompt(cmd, x, y, size=19):
-    return text("$", x, y, size, "mono", P)[0] + text(cmd, x + size * 1.1, y, size, "mono", TEXT)[0]
+    return text("$", x, y, size, "mono", B)[0] + text(cmd, x + size * 1.1, y, size, "mono", TEXT)[0]
 
 def term_bar(w):
-    return "".join(f'<circle cx="{34 + i * 22}" cy="34" r="6" fill="{c}" opacity=".85"/>' for i, c in enumerate((P, S, MUTED))) + \
+    return "".join(f'<circle cx="{34 + i * 22}" cy="34" r="6" fill="{c}" opacity=".85"/>' for i, c in enumerate((B, "#4857fd", BS))) + \
            text("xcape@gdynia: ~", w / 2, 40, 14, "mono", MUTED, anchor="middle")[0] + f'<line x1="1" y1="62" x2="{w - 1}" y2="62" stroke="{LINE}" stroke-width="1.2"/>'
 
 def build_header(lang):
@@ -166,7 +167,7 @@ def build_header(lang):
     b = frame(W, h) + [ANIM, term_bar(W),
          ln(0, prompt("whoami", 44, 112)), ln(1, text("PIOTR JELENIEWICZ", 42, 176, 54, "display", WHITE)[0]),
          ln(2, prompt("cat role.txt", 44, 226)), ln(3, text(ROLE[lang], 44, 262, 22, "sans", TEXT)[0]),
-         ln(4, text("$", 44, 304, 19, "mono", P)[0] + f'<rect class="cur" x="68" y="288" width="11" height="20" fill="{P}" filter="url(#neon)"/>'),
+         ln(4, text("$", 44, 304, 19, "mono", B)[0] + f'<rect class="cur" x="68" y="288" width="11" height="20" fill="{B}" filter="url(#neon)"/>'),
          f'<image href="{logo_uri()}" x="930" y="92" width="200" height="200"/>', f'<circle cx="1030" cy="192" r="97.5" fill="none" stroke="url(#edge)" stroke-opacity=".7" stroke-width="1.5"/>']
     svg(f"header-{lang}.svg", h, b, "Piotr Jeleniewicz")
 
@@ -182,7 +183,7 @@ def build_header_m(lang):
     lines.append(cur)
     b.append(ln(3, "".join(text(l, 32, 336 + i * 30, 22, "sans", TEXT)[0] for i, l in enumerate(lines))))
     yc = 336 + len(lines) * 30 + 12
-    b.append(ln(4, text("$", 32, yc, 18, "mono", P)[0] + f'<rect class="cur" x="54" y="{yc - 16}" width="10" height="19" fill="{P}"/>'))
+    b.append(ln(4, text("$", 32, yc, 18, "mono", B)[0] + f'<rect class="cur" x="54" y="{yc - 16}" width="10" height="19" fill="{B}"/>'))
     svg(f"header-{lang}-m.svg", h, b, "Piotr Jeleniewicz", M)
 
 # ---------- dane ----------
@@ -225,8 +226,8 @@ def chart(weeks, lang, x0, y0, w, h, every=1):
                 text(lab, X(i), y0 + h + 22, 12, "mono", MUTED, anchor="middle")[0]]
     pts = [(X(i), Y(v)) for i, v in enumerate(vals)]
     d = f"M{pts[0][0]:.1f} {pts[0][1]:.1f}" + "".join(f"C{(ax + bx) / 2:.1f} {ay:.1f} {(ax + bx) / 2:.1f} {by:.1f} {bx:.1f} {by:.1f}" for (ax, ay), (bx, by) in zip(pts, pts[1:]))
-    out.append(f'<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{P}" stop-opacity=".35"/><stop offset="1" stop-color="{P}" stop-opacity="0"/></linearGradient>'
-               f'<linearGradient id="wl" gradientUnits="userSpaceOnUse" x1="{x0}" y1="0" x2="{x0 + w}" y2="0"><stop offset="0" stop-color="{P}"/><stop offset="1" stop-color="{S}"/></linearGradient></defs>'
+    out.append(f'<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{B}" stop-opacity=".35"/><stop offset="1" stop-color="{B}" stop-opacity="0"/></linearGradient>'
+               f'<linearGradient id="wl" gradientUnits="userSpaceOnUse" x1="{x0}" y1="0" x2="{x0 + w}" y2="0"><stop offset="0" stop-color="{B}"/><stop offset="1" stop-color="{BS}"/></linearGradient></defs>'
                f'<path d="{d}L{x0 + w} {y0 + h}L{x0} {y0 + h}Z" fill="url(#wg)"/><path d="{d}" fill="none" stroke="url(#wl)" stroke-width="2.4" stroke-linejoin="round" filter="url(#neon)"/>')
     return out
 
@@ -237,7 +238,7 @@ def build_stats(lang, data, repos):
     c = COPY[lang]; when = lambda d: d.strftime("%d.%m") if lang == "pl" else d.strftime("%b %d")
     nums = (data["total"], data["commits"], data["pub"])
     h = 360
-    b = frame(W, h, "glowbr") + [text(c["activity"], 44, 62, 14, "sans6", P, ls=3.6)[0]]
+    b = frame(W, h, "glowbr") + [text(c["activity"], 44, 62, 14, "sans6", B, ls=3.6)[0]]
     for i, (v, l) in enumerate(zip(nums, c["stats"])):
         b += [text(str(v), 44 + i * 140, 150, 44, "sans6", WHITE)[0], text(l, 46 + i * 140, 178, 14, "sans", MUTED)[0]]
     b += chart(data["weeks"], lang, 560, 60, 600, 190) + [text(c["weeks"], 44, 230, 13, "mono", MUTED)[0],
@@ -245,7 +246,7 @@ def build_stats(lang, data, repos):
           text(f'{c["now"]}: ' + "  ·  ".join(f"{n} {when(d)}" for n, d in repos), 44, 330, 17, "mono", TEXT)[0]]
     svg(f"stats-{lang}.svg", h, b, c["activity"])
     h = 540
-    b = frame(M, h, "glowbr") + [text(c["activity"], 30, 56, 13, "sans6", P, ls=2.6)[0]]
+    b = frame(M, h, "glowbr") + [text(c["activity"], 30, 56, 13, "sans6", B, ls=2.6)[0]]
     for i, (v, l) in enumerate(zip(nums, c["stats"])):
         b += [text(str(v), 30 + i * 182, 124, 42, "sans6", WHITE)[0], text(l, 32 + i * 182, 152, 15, "sans", MUTED)[0]]
     b += chart(data["weeks"], lang, 74, 190, M - 104, 180, every=2) + [f'<line x1="30" y1="420" x2="{M - 30}" y2="420" stroke="{LINE}" stroke-width="1.2"/>']
