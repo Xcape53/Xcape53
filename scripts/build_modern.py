@@ -252,7 +252,8 @@ def heat(weeks, lang, x0, y0, cell=17, gap=4):
     out, step = [], cell + gap
     for i, (_, days) in enumerate(weeks):
         for j, v in enumerate(days):
-            out.append(f'<rect class="c" style="animation-delay:{.2 + i * .022 + j * .01:.2f}s" x="{x0 + i * step}" y="{y0 + j * step}" width="{cell}" height="{cell}" rx="3.5" fill="{LEVELS[level(v)]}"/>')
+            fill = f'fill="none" stroke="{P}" stroke-opacity=".22" stroke-width="1"' if v == 0 else f'fill="{LEVELS[level(v)]}"'   # puste kratki tylko obrysem: widać tło strony
+            out.append(f'<rect class="c" style="animation-delay:{.2 + i * .022 + j * .01:.2f}s" x="{x0 + i * step + .5}" y="{y0 + j * step + .5}" width="{cell - 1}" height="{cell - 1}" rx="3.5" {fill}/>')
     for i, lab in month_ticks([d for d, _ in weeks], lang):
         out.append(text(lab, x0 + i * step, y0 - 10, 12, "mono", MUTED)[0])
     return out
@@ -260,7 +261,7 @@ def heat(weeks, lang, x0, y0, cell=17, gap=4):
 def legend(lang, x, y):
     t = TITLES[lang]
     out = [text(t["none"], x - 8, y + 12, 12, "mono", MUTED, anchor="end")[0]]
-    out += [f'<rect x="{x + k * 18}" y="{y}" width="14" height="14" rx="3" fill="{c}"/>' for k, c in enumerate(LEVELS)]
+    out += [f'<rect x="{x + k * 18 + .5}" y="{y + .5}" width="13" height="13" rx="3" ' + (f'fill="none" stroke="{P}" stroke-opacity=".22"' if k == 0 else f'fill="{c}"') + '/>' for k, c in enumerate(LEVELS)]
     return out + [text(t["more"], x + 5 * 18 + 6, y + 12, 12, "mono", MUTED)[0]]
 
 def build_heat(lang, data):
