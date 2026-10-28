@@ -108,22 +108,6 @@ def build_flow_m(lang):
     svg(f"flow-{lang}-m.svg", h, b, "Piotr Jeleniewicz", w)
 
 # ---------- C: karty + aktywność ----------
-def build_header(lang):
-    c, h = COPY[lang], 300
-    b = frame(W, h) + [text(c["kicker"], 58, 96, 16, "sans6", P, ls=4.4)[0], text("PIOTR", 52, 180, 80, "display", WHITE)[0],
-                       text("JELENIEWICZ", 52, 256, 80, "display", WHITE)[0]]
-    d = "M" + "L".join(f"{x} {280 + 5 * math.sin(x / 16):.1f}" for x in range(58, 700, 4))
-    b.append(f'<path d="{d}" fill="none" stroke="{S}" stroke-width="2.4" stroke-linecap="round"/>')
-    b += [f'<image href="{logo_uri()}" x="890" y="45" width="210" height="210"/>', f'<circle cx="995" cy="150" r="118" fill="none" stroke="{LINE}" stroke-width="1.5"/>']
-    svg(f"header-{lang}.svg", h, b, "Piotr Jeleniewicz")
-
-def build_header_m(lang):
-    c, h = COPY[lang], 380
-    b = frame(M, h) + [text(c["kicker"].split(" & ")[0].split(" I ")[0], 40, 62, 14, "sans6", P, ls=3.6)[0],
-                       text("PIOTR", 36, 132, 62, "display", WHITE)[0], text("JELENIEWICZ", 36, 196, 62, "display", WHITE)[0],
-                       f'<image href="{logo_uri()}" x="230" y="222" width="140" height="140"/>']
-    svg(f"header-{lang}-m.svg", h, b, "Piotr Jeleniewicz", M)
-
 def card(x, y, w, h, n, d, t, col, big=False):
     s = 1.12 if big else 1
     out = [box(x, y, w, h, stroke=LINE, fill=PANEL, sw=1.5, r=14), f'<rect x="{x + 22}" y="{y + 22}" width="38" height="4" rx="2" fill="{col}"/>',
@@ -151,53 +135,188 @@ def gh_token():
     if os.environ.get("GITHUB_TOKEN"): return os.environ["GITHUB_TOKEN"]
     return subprocess.run(["gh", "auth", "token"], capture_output=True, text=True).stdout.strip()
 
+# ---------- C: nagłówek jak terminal (linie pojawiają się po kolei, kursor mruga) ----------
+ANIM = ("<style>.ln{opacity:0;animation:in .35s ease-out forwards}.cur{animation:bl 1s steps(1) infinite}"
+        ".c{opacity:0;animation:in .4s ease-out forwards}"
+        "@keyframes in{to{opacity:1}}@keyframes bl{50%{opacity:0}}"
+        "@media (prefers-reduced-motion:reduce){.ln,.c{opacity:1;animation:none}.cur{animation:none}}</style>")
+ROLE = {"en": "Software development & system integration", "pl": "Tworzenie oprogramowania i integracja systemów"}
+
+def ln(i, body, step=.55):
+    return f'<g class="ln" style="animation-delay:{.3 + i * step:.2f}s">{body}</g>'
+
+def prompt(cmd, x, y, size=19):
+    return text("$", x, y, size, "mono", P)[0] + text(cmd, x + size * 1.1, y, size, "mono", TEXT)[0]
+
+def term_bar(w):
+    return "".join(f'<circle cx="{34 + i * 22}" cy="34" r="6" fill="{c}" opacity=".85"/>' for i, c in enumerate((P, S, MUTED))) + \
+           text("xcape@gdynia: ~", w / 2, 40, 14, "mono", MUTED, anchor="middle")[0] + f'<line x1="1" y1="62" x2="{w - 1}" y2="62" stroke="{LINE}" stroke-width="1.2"/>'
+
+def build_header(lang):
+    h = 330
+    b = frame(W, h) + [ANIM, term_bar(W),
+         ln(0, prompt("whoami", 44, 112)), ln(1, text("PIOTR JELENIEWICZ", 42, 176, 54, "display", WHITE)[0]),
+         ln(2, prompt("cat role.txt", 44, 226)), ln(3, text(ROLE[lang], 44, 262, 22, "sans", TEXT)[0]),
+         ln(4, text("$", 44, 304, 19, "mono", P)[0] + f'<rect class="cur" x="68" y="288" width="11" height="20" fill="{P}"/>'),
+         f'<image href="{logo_uri()}" x="930" y="92" width="200" height="200"/>', f'<circle cx="1030" cy="192" r="112" fill="none" stroke="{LINE}" stroke-width="1.5"/>']
+    svg(f"header-{lang}.svg", h, b, "Piotr Jeleniewicz")
+
+def build_header_m(lang):
+    h = 430
+    b = frame(M, h) + [ANIM, term_bar(M), f'<image href="{logo_uri()}" x="468" y="78" width="96" height="96"/>',
+         ln(0, prompt("whoami", 32, 112, 18)), ln(1, text("PIOTR", 30, 186, 54, "display", WHITE)[0] + text("JELENIEWICZ", 30, 244, 54, "display", WHITE)[0]),
+         ln(2, prompt("cat role.txt", 32, 300, 18))]
+    words, lines, cur = ROLE[lang].split(" "), [], ""
+    for wd in words:
+        if text((cur + " " + wd).strip(), 0, 0, 22)[1] > M - 64: lines.append(cur); cur = wd
+        else: cur = (cur + " " + wd).strip()
+    lines.append(cur)
+    b.append(ln(3, "".join(text(l, 32, 336 + i * 30, 22, "sans", TEXT)[0] for i, l in enumerate(lines))))
+    yc = 336 + len(lines) * 30 + 12
+    b.append(ln(4, text("$", 32, yc, 18, "mono", P)[0] + f'<rect class="cur" x="54" y="{yc - 16}" width="10" height="19" fill="{P}"/>'))
+    svg(f"header-{lang}-m.svg", h, b, "Piotr Jeleniewicz", M)
+
+# ---------- dane ----------
 def activity():
-    q = '{ user(login: "%s") { contributionsCollection { totalCommitContributions contributionCalendar { totalContributions weeks { contributionDays { contributionCount } } } } } }' % sk.USER
+    q = '{ user(login: "%s") { contributionsCollection { totalCommitContributions contributionCalendar { totalContributions weeks { contributionDays { date contributionCount } } } } } }' % sk.USER
     req = urllib.request.Request("https://api.github.com/graphql", data=json.dumps({"query": q}).encode(), headers={"Authorization": "Bearer " + gh_token()})
     cc = json.load(urllib.request.urlopen(req, timeout=20))["data"]["user"]["contributionsCollection"]
-    weeks = [sum(d["contributionCount"] for d in w["contributionDays"]) for w in cc["contributionCalendar"]["weeks"]]
+    weeks = [(w["contributionDays"][0]["date"], [d["contributionCount"] for d in w["contributionDays"]]) for w in cc["contributionCalendar"]["weeks"]]
     pub = json.load(urllib.request.urlopen(f"https://api.github.com/users/{sk.USER}", timeout=20))["public_repos"]
-    return cc["contributionCalendar"]["totalContributions"], cc["totalCommitContributions"], pub, weeks
+    return dict(total=cc["contributionCalendar"]["totalContributions"], commits=cc["totalCommitContributions"], pub=pub, weeks=weeks)
 
-def wave(weeks, x0, y0, w, h):
-    weeks = [sum(weeks[max(0, i - 1):i + 2]) / len(weeks[max(0, i - 1):i + 2]) for i in range(len(weeks))]   # średnia z 3 tygodni: mniej poszarpana fala
-    mx = max(weeks) or 1
-    pts = [(x0 + i * w / (len(weeks) - 1), y0 + h - math.sqrt(v / mx) * h) for i, v in enumerate(weeks)]   # pierwiastek: pojedyncze piki nie spłaszczają reszty
-    d = f"M{pts[0][0]:.1f} {pts[0][1]:.1f}"
-    for (ax, ay), (bx, by) in zip(pts, pts[1:]):   # wygładzona fala (krzywe przez środki odcinków)
-        mxp = (ax + bx) / 2
-        d += f"C{mxp:.1f} {ay:.1f} {mxp:.1f} {by:.1f} {bx:.1f} {by:.1f}"
-    area = d + f"L{x0 + w} {y0 + h}L{x0} {y0 + h}Z"
-    return (f'<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{P}" stop-opacity=".35"/><stop offset="1" stop-color="{P}" stop-opacity="0"/></linearGradient>'
-            f'<linearGradient id="wl" gradientUnits="userSpaceOnUse" x1="{x0}" y1="0" x2="{x0 + w}" y2="0"><stop offset="0" stop-color="{P}"/><stop offset="1" stop-color="{S}"/></linearGradient></defs>'
-            f'<path d="{area}" fill="url(#wg)"/><path d="{d}" fill="none" stroke="url(#wl)" stroke-width="2.4" stroke-linejoin="round"/>')
+def api(url):
+    req = urllib.request.Request("https://api.github.com" + url, headers={"Authorization": "Bearer " + gh_token(), "Accept": "application/vnd.github+json"})
+    return json.load(urllib.request.urlopen(req, timeout=30))
+
+def commit_hours():
+    # godziny commitów z publicznych repozytoriów, ostatnie 12 miesięcy, czas polski (CEST kwiecień-październik, ponytail: przybliżenie DST)
+    since = (datetime.now(timezone.utc) - timedelta(days=365)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    hours = [0] * 24
+    for r in api(f"/users/{sk.USER}/repos?per_page=100&type=owner"):
+        if r["fork"] or r["private"]: continue
+        for page in range(1, 11):
+            batch = api(f"/repos/{sk.USER}/{r['name']}/commits?author={sk.USER}&since={since}&per_page=100&page={page}")
+            for c in batch:
+                d = datetime.strptime(c["commit"]["author"]["date"], "%Y-%m-%dT%H:%M:%SZ")
+                hours[(d.hour + (2 if 4 <= d.month <= 10 else 1)) % 24] += 1
+            if len(batch) < 100: break
+    return hours
+
+MONTHS = {"en": "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(), "pl": "sty lut mar kwi maj cze lip sie wrz paź lis gru".split()}
+
+def nice(v):
+    e = 10 ** math.floor(math.log10(max(v, 1)))
+    return next(m * e for m in (1, 2, 2.5, 5, 10) if m * e >= v)
+
+def month_ticks(dates, lang, every=1):
+    out, prev, k = [], None, 0
+    for i, d in enumerate(dates):
+        m = int(d[5:7])
+        if m != prev and i > 0:
+            if k % every == 0: out.append((i, MONTHS[lang][m - 1]))
+            k += 1
+        prev = m
+    return out
+
+def chart(weeks, lang, x0, y0, w, h, every=1):
+    vals = [sum(c) for _, c in weeks]
+    vals = [sum(vals[max(0, i - 1):i + 2]) / len(vals[max(0, i - 1):i + 2]) for i in range(len(vals))]   # średnia z 3 tygodni
+    step = nice(max(vals) / 2); top = step * 2
+    X = lambda i: x0 + i * w / (len(vals) - 1); Y = lambda v: y0 + h - v / top * h
+    out = []
+    for k in range(3):   # oś Y: 0, połowa, góra
+        yy, dash = Y(k * step), "" if k == 0 else 'stroke-dasharray="3 5"'
+        out += [f'<line x1="{x0}" y1="{yy:.1f}" x2="{x0 + w}" y2="{yy:.1f}" stroke="{LINE}" stroke-width="1" {dash}/>',
+                text(f"{k * step:g}", x0 - 10, yy + 4, 12, "mono", MUTED, anchor="end")[0]]
+    for i, lab in month_ticks([d for d, _ in weeks], lang, every):   # oś X: miesiące
+        out += [f'<line x1="{X(i):.1f}" y1="{y0 + h}" x2="{X(i):.1f}" y2="{y0 + h + 5}" stroke="{MUTED}" stroke-width="1"/>',
+                text(lab, X(i), y0 + h + 22, 12, "mono", MUTED, anchor="middle")[0]]
+    pts = [(X(i), Y(v)) for i, v in enumerate(vals)]
+    d = f"M{pts[0][0]:.1f} {pts[0][1]:.1f}" + "".join(f"C{(ax + bx) / 2:.1f} {ay:.1f} {(ax + bx) / 2:.1f} {by:.1f} {bx:.1f} {by:.1f}" for (ax, ay), (bx, by) in zip(pts, pts[1:]))
+    out.append(f'<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{P}" stop-opacity=".35"/><stop offset="1" stop-color="{P}" stop-opacity="0"/></linearGradient>'
+               f'<linearGradient id="wl" gradientUnits="userSpaceOnUse" x1="{x0}" y1="0" x2="{x0 + w}" y2="0"><stop offset="0" stop-color="{P}"/><stop offset="1" stop-color="{S}"/></linearGradient></defs>'
+               f'<path d="{d}L{x0 + w} {y0 + h}L{x0} {y0 + h}Z" fill="url(#wg)"/><path d="{d}" fill="none" stroke="url(#wl)" stroke-width="2.4" stroke-linejoin="round"/>')
+    return out
+
+TITLES = {"en": dict(heat="CONTRIBUTION CALENDAR", hours="WHEN I COMMIT", peak="busiest hour", unit="commits", none="less", more="more"),
+          "pl": dict(heat="KALENDARZ KONTRYBUCJI", hours="KIEDY COMMITUJĘ", peak="najczęściej", unit="commitów", none="mniej", more="więcej")}
 
 def build_stats(lang, data, repos):
-    c, (tot, com, pub, weeks) = COPY[lang], data
-    when = lambda d: d.strftime("%d.%m") if lang == "pl" else d.strftime("%b %d")
-    now_line = f'{c["now"]}: ' + "  ·  ".join(f"{n} {when(d)}" for n, d in repos)
-    h = 300
-    b = frame(W, h) + [text(c["activity"], 44, 64, 14, "sans6", P, ls=3.6)[0]]
-    for i, (v, l) in enumerate(zip((tot, com, pub), c["stats"])):
-        b += [text(str(v), 44 + i * 150, 140, 46, "sans6", WHITE)[0], text(l, 46 + i * 150, 170, 14, "sans", MUTED)[0]]
-    b += [wave(weeks, 520, 64, 640, 130), text(c["weeks"], 1160, 222, 13, "mono", MUTED, anchor="end")[0],
-          f'<line x1="44" y1="240" x2="1156" y2="240" stroke="{LINE}" stroke-width="1.2"/>', text(now_line, 44, 274, 17, "mono", TEXT)[0]]
+    c = COPY[lang]; when = lambda d: d.strftime("%d.%m") if lang == "pl" else d.strftime("%b %d")
+    nums = (data["total"], data["commits"], data["pub"])
+    h = 360
+    b = frame(W, h) + [text(c["activity"], 44, 62, 14, "sans6", P, ls=3.6)[0]]
+    for i, (v, l) in enumerate(zip(nums, c["stats"])):
+        b += [text(str(v), 44 + i * 140, 150, 44, "sans6", WHITE)[0], text(l, 46 + i * 140, 178, 14, "sans", MUTED)[0]]
+    b += chart(data["weeks"], lang, 560, 60, 600, 190) + [text(c["weeks"], 44, 230, 13, "mono", MUTED)[0],
+          f'<line x1="44" y1="296" x2="1156" y2="296" stroke="{LINE}" stroke-width="1.2"/>',
+          text(f'{c["now"]}: ' + "  ·  ".join(f"{n} {when(d)}" for n, d in repos), 44, 330, 17, "mono", TEXT)[0]]
     svg(f"stats-{lang}.svg", h, b, c["activity"])
-    h = 470
+    h = 540
     b = frame(M, h) + [text(c["activity"], 30, 56, 13, "sans6", P, ls=2.6)[0]]
-    for i, (v, l) in enumerate(zip((tot, com, pub), c["stats"])):
-        b += [text(str(v), 30 + i * 182, 126, 44, "sans6", WHITE)[0], text(l, 32 + i * 182, 154, 15, "sans", MUTED)[0]]
-    b += [wave(weeks, 30, 190, M - 60, 150), text(c["weeks"], M - 30, 366, 14, "mono", MUTED, anchor="end")[0],
-          f'<line x1="30" y1="386" x2="{M - 30}" y2="386" stroke="{LINE}" stroke-width="1.2"/>']
-    b += [text(f'{c["now"]}: {n} · {when(d)}' if i == 0 else f"{n} · {when(d)}", 30 if i == 0 else 30 + text(c["now"] + ": ", 0, 0, 18, "mono")[1], 422 + i * 30, 18, "mono", TEXT)[0] for i, (n, d) in enumerate(repos)]
+    for i, (v, l) in enumerate(zip(nums, c["stats"])):
+        b += [text(str(v), 30 + i * 182, 124, 42, "sans6", WHITE)[0], text(l, 32 + i * 182, 152, 15, "sans", MUTED)[0]]
+    b += chart(data["weeks"], lang, 74, 190, M - 104, 180, every=2) + [f'<line x1="30" y1="420" x2="{M - 30}" y2="420" stroke="{LINE}" stroke-width="1.2"/>']
+    b += [text((f'{c["now"]}: ' if i == 0 else "") + f"{n} · {when(d)}", 30 if i == 0 else 30 + text(c["now"] + ": ", 0, 0, 18, "mono")[1], 458 + i * 32, 18, "mono", TEXT)[0] for i, (n, d) in enumerate(repos)]
     svg(f"stats-{lang}-m.svg", h, b, c["activity"], M)
+
+LEVELS = ("#0f1a2e", "#123a86", "#1f5fd6", P, S)
+def level(v):
+    return 0 if v == 0 else 1 if v <= 2 else 2 if v <= 5 else 3 if v <= 10 else 4
+
+def heat(weeks, lang, x0, y0, cell=17, gap=4):
+    out, step = [], cell + gap
+    for i, (_, days) in enumerate(weeks):
+        for j, v in enumerate(days):
+            out.append(f'<rect class="c" style="animation-delay:{.2 + i * .022 + j * .01:.2f}s" x="{x0 + i * step}" y="{y0 + j * step}" width="{cell}" height="{cell}" rx="3.5" fill="{LEVELS[level(v)]}"/>')
+    for i, lab in month_ticks([d for d, _ in weeks], lang):
+        out.append(text(lab, x0 + i * step, y0 - 10, 12, "mono", MUTED)[0])
+    return out
+
+def legend(lang, x, y):
+    t = TITLES[lang]
+    out = [text(t["none"], x - 8, y + 12, 12, "mono", MUTED, anchor="end")[0]]
+    out += [f'<rect x="{x + k * 18}" y="{y}" width="14" height="14" rx="3" fill="{c}"/>' for k, c in enumerate(LEVELS)]
+    return out + [text(t["more"], x + 5 * 18 + 6, y + 12, 12, "mono", MUTED)[0]]
+
+def build_heat(lang, data):
+    t, wk = TITLES[lang], data["weeks"][-53:]
+    h = 270
+    b = frame(W, h) + [ANIM, text(t["heat"], 44, 62, 14, "sans6", P, ls=3.6)[0]] + heat(wk, lang, 44, 100) + legend(lang, 1040, 244)
+    svg(f"heat-{lang}.svg", h, b, t["heat"])
+    wk = data["weeks"][-26:]
+    h = 290
+    b = frame(M, h) + [ANIM, text(t["heat"], 27, 56, 13, "sans6", P, ls=2.6)[0]] + heat(wk, lang, 27, 96) + legend(lang, 460, 264)
+    svg(f"heat-{lang}-m.svg", h, b, t["heat"], M)
+
+def bars(hours, x0, y0, w, h, every=3):
+    mx, bw = max(hours) or 1, w / 24
+    out = [f'<defs><linearGradient id="bg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="{P}"/><stop offset="1" stop-color="{S}"/></linearGradient></defs>',
+           f'<line x1="{x0}" y1="{y0 + h}" x2="{x0 + w}" y2="{y0 + h}" stroke="{LINE}" stroke-width="1.2"/>']
+    for i, v in enumerate(hours):
+        bh = max(2, v / mx * h)
+        out.append(f'<rect class="c" style="animation-delay:{.2 + i * .04:.2f}s" x="{x0 + i * bw + bw * .18:.1f}" y="{y0 + h - bh:.1f}" width="{bw * .64:.1f}" height="{bh:.1f}" rx="3" fill="url(#bg)" opacity="{1 if v else .25}"/>')
+        if i % every == 0:
+            out.append(text(f"{i:02d}", x0 + i * bw + bw / 2, y0 + h + 22, 12, "mono", MUTED, anchor="middle")[0])
+    return out
+
+def build_hours(lang, hours):
+    t = TITLES[lang]; peak = max(range(24), key=lambda i: hours[i])
+    note = f'{t["peak"]}: {peak:02d}:00-{(peak + 1) % 24:02d}:00 · {sum(hours)} {t["unit"]}'
+    h = 280
+    b = frame(W, h) + [ANIM, text(t["hours"], 44, 62, 14, "sans6", P, ls=3.6)[0], text(note, 1156, 62, 14, "mono", MUTED, anchor="end")[0]] + bars(hours, 44, 90, 1112, 140)
+    svg(f"hours-{lang}.svg", h, b, t["hours"])
+    h = 320
+    b = frame(M, h) + [ANIM, text(t["hours"], 30, 56, 13, "sans6", P, ls=2.6)[0], text(note, 30, 84, 13, "mono", MUTED)[0]] + bars(hours, 30, 112, M - 60, 150, every=6)
+    svg(f"hours-{lang}-m.svg", h, b, t["hours"], M)
 
 if __name__ == "__main__":
     what = sys.argv[1] if len(sys.argv) > 1 else "all"
     if what in ("flow", "all"):
         for lang in COPY: build_flow(lang); build_flow_m(lang)
     if what in ("cards", "stats", "all"):
-        data, repos = activity(), latest_repos()
+        data, repos, hours = activity(), latest_repos(), commit_hours()
         for lang in COPY:
             if what != "stats": build_header(lang); build_header_m(lang); build_cards(lang)
-            build_stats(lang, data, repos)
+            build_stats(lang, data, repos); build_heat(lang, data); build_hours(lang, hours)
