@@ -40,19 +40,17 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify activity filtering
         run: python -m unittest discover -s tests -v
-      - name: Refresh selected public project activity
+      - name: Refresh activity, calendar and the "now" line
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scripts/activity.py
-      - name: Generate public commit arcade
-        run: npm run arcade
-      - name: Generate calendar alternative
-        run: python scripts/calendar.py
+        run: |
+          python -m pip install --quiet fonttools==4.55.3
+          python scripts/build_modern.py stats
       - name: Validate generated artwork
         run: python scripts/validate.py
       - name: Save updated artwork
         run: |
-          git add assets/activity-*.svg assets/arcade/*.svg assets/calendar-*.svg assets/data/*.json
+          git add assets/modern/stats-*.svg assets/modern/heat-*.svg
           if git diff --cached --quiet; then
             echo "Public artwork is already current."
             exit 0

@@ -5,3 +5,7 @@ The contribution animations are generated with [pacman-contribution-graph](https
 The original circuit illustrations and project covers are generated locally by scripts/build_visuals.py. Project screenshots are owned public materials from the portfolio and SeeSky demo.
 
 The SeeSky cover uses the original project emblem geometry and colours from [SeeSky-tracking/frontend/public/images/seesky.svg](https://github.com/Xcape53/SeeSky-tracking/blob/master/frontend/public/images/seesky.svg). Its sky motif is illustrative, not a plot of live telescope data. The Yapper waveform is an original illustration, not a recording. JobManager and portfolio covers embed the existing public screenshots unchanged; cropping happens only within the SVG composition.
+
+## Fonts in scripts/fonts/
+
+Poppins, Spline Sans, Spline Sans Mono and Caveat are licensed under the SIL Open Font License 1.1 (license texts next to the files, from github.com/google/fonts). They are only used to convert README text to outlines in scripts/build_sketch.py.

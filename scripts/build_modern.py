@@ -1,0 +1,328 @@
+"""Nowoczesne grafiki profilu (bez odręcznych linii), w kolorach i fontach piotrjeleniewicz.com.
+
+python scripts/build_modern.py flow     wariant B: profil jako schemat blokowy z pulsami jak na stronie
+python scripts/build_modern.py cards    wariant C: nagłówek, karty projektów, karta aktywności z prawdziwych danych
+
+Narzędzia do tekstu (krzywe z fontów) i zapis SVG są wspólne z build_sketch.py.
+"""
+import sys
+from pathlib import Path
+sys.path = [p for p in sys.path if Path(p or ".").resolve() != Path(__file__).resolve().parent]
+import importlib.util, json, math, os, subprocess, urllib.request
+from datetime import datetime, timedelta, timezone
+
+_spec = importlib.util.spec_from_file_location("sk", Path(__file__).with_name("build_sketch.py"))
+sk = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(sk)
+text, svg, latest_repos = sk.text, sk.svg, sk.latest_repos
+NAVY, GLOW, PANEL, TEXT, WHITE, P, S, W, M = sk.NAVY, sk.GLOW, sk.PANEL, sk.TEXT, sk.WHITE, sk.P, sk.S, sk.W, sk.M
+# paleta z awatara na GitHubie (fioletowy neon na ciemnym tle), nie z niebieskiej favicony strony
+P, S, GLOW = "#7a5cff", "#a058ff", "#351f79"
+A1, A2, A3, A4 = "#4d3fdb", "#5f37ee", "#7237d7", "#a058ff"
+B, BS = "#2c7ffe", "#642efd"   # niebieski akcent z logo strony (gradient #2c7ffe -> #642efd)
+def logo_uri():
+    return "data:image/png;base64," + __import__("base64").b64encode((Path(__file__).resolve().parents[1] / "assets/modern-src/avatar-240.png").read_bytes()).decode()
+MUTED, LINE = "#6b7686", "#1d2b48"
+sk.OUT = Path(__file__).resolve().parents[1] / "assets" / "modern"
+
+COPY = {
+    "en": {"kicker": "SOFTWARE DEVELOPMENT & SYSTEM INTEGRATION", "me": "me", "problem": "problem", "works": "working tools",
+           "loop": "daily use -> fixes", "projects": "PROJECTS", "activity": "ACTIVITY · LAST 12 MONTHS", "now": "now",
+           "stats": ("contributions", "commits", "public repos"), "weeks": "weekly contributions",
+           "rows": [("JobManager", "Listings from 8 job portals, offers researched by an LLM", "Node.js · LLM", "url(#jm)"),
+                    ("SeeSky", "Software for the SimLE radio telescope", "Python · Flask · Astropy", "#d6336c"),
+                    ("LabInc", "Incremental game about chemical production", "Java · Swing", "#007acc"),
+                    ("Yapper", "Lightweight speech-to-text app", "Python · PyQt6", "#4b4b55")]},
+    "pl": {"kicker": "TWORZENIE OPROGRAMOWANIA I INTEGRACJA SYSTEMÓW", "me": "ja", "problem": "problem", "works": "działające narzędzia",
+           "loop": "codzienne użycie -> poprawki", "projects": "PROJEKTY", "activity": "AKTYWNOŚĆ · OSTATNIE 12 MIESIĘCY", "now": "teraz",
+           "stats": ("kontrybucji", "commitów", "publicznych repo"), "weeks": "kontrybucje tygodniowo",
+           "rows": [("JobManager", "Oferty z 8 portali, analiza modelem językowym", "Node.js · LLM", "url(#jm)"),
+                    ("SeeSky", "Oprogramowanie radioteleskopu SimLE", "Python · Flask · Astropy", "#d6336c"),
+                    ("LabInc", "Gra inkrementalna o produkcji chemicznej", "Java · Swing", "#007acc"),
+                    ("Yapper", "Lekka aplikacja speech-to-text", "Python · PyQt6", "#4b4b55")]},
+}
+
+# ---------- czyste kształty ----------
+def box(x, y, w, h, stroke=P, fill=NAVY, sw=1.6, r=12, op=1):
+    return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{r}" fill="{fill}" stroke="{stroke}" stroke-width="{sw}" stroke-opacity="{op}"/>'
+
+def path(d, stroke=P, sw=1.8, op=1, dash=None, marker=True, pid=None):
+    extra = (f' id="{pid}"' if pid else "") + (f' stroke-dasharray="{dash}"' if dash else "") + (' marker-end="url(#ar)"' if marker else "")
+    return f'<path d="{d}" fill="none" stroke="{stroke}" stroke-width="{sw}" stroke-opacity="{op}" stroke-linecap="round" stroke-linejoin="round"{extra}/>'
+
+def pulse(pid, dur, delay, color=WHITE):
+    # puls jedzie po ścieżce jak na schemacie na stronie; SMIL działa w obrazkach SVG na GitHubie
+    return (f'<circle r="3.6" fill="{color}" opacity="0"><animateMotion dur="{dur}s" begin="{delay}s" repeatCount="indefinite"><mpath href="#{pid}"/></animateMotion>'
+            f'<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.1;.85;1" dur="{dur}s" begin="{delay}s" repeatCount="indefinite"/></circle>')
+
+DEFS = (f'<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">'
+        f'<path d="M1 1L9 5L1 9" fill="none" stroke="{P}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>'
+        f'<radialGradient id="glow" cx=".12" cy="0" r=".9"><stop offset="0" stop-color="{GLOW}" stop-opacity=".9"/><stop offset="1" stop-color="{NAVY}" stop-opacity="0"/></radialGradient>'
+                f'<radialGradient id="glowbr" cx="1" cy="1" r="1.1"><stop offset="0" stop-color="{GLOW}" stop-opacity=".95"/><stop offset=".5" stop-color="{GLOW}" stop-opacity=".35"/><stop offset="1" stop-color="{NAVY}" stop-opacity="0"/></radialGradient>'
+        f'<linearGradient id="jm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3af555"/><stop offset="1" stop-color="#29ed81"/></linearGradient><linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{A1}"/><stop offset="1" stop-color="{A4}"/></linearGradient>'
+        f'<filter id="neon" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>')
+
+def frame(w, h, glow="glow"):
+    return [DEFS, f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="16" fill="{NAVY}"/>',
+            f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="16" fill="url(#{glow})"/>',
+            f'<rect x="1.5" y="1.5" width="{w - 3}" height="{h - 3}" rx="16" fill="none" stroke="url(#edge)" stroke-opacity=".55" stroke-width="1.5"/>']
+
+def name_block(c, x, y, size, kicker_size):
+    return [text(c["kicker"], x + 2, y, kicker_size, "sans6", P, ls=kicker_size / 3.6)[0],
+            text("PIOTR JELENIEWICZ", x, y + size * 1.05, size, "display", WHITE)[0]]
+
+# ---------- B: schemat blokowy ----------
+def build_flow(lang):
+    c, h = COPY[lang], 640
+    b = frame(W, h) + name_block(c, 56, 70, 52, 15)
+    y0, cyc = 360, 300
+    # wejście: ja, sumator
+    b += [f'<circle cx="110" cy="{y0}" r="38" fill="#120a2e" stroke="{S}" stroke-width="1.8"/>', text(c["me"], 110, y0 + 7, 21, "sans6", WHITE, anchor="middle")[0],
+          text(c["problem"], 110, y0 + 66, 15, "mono", MUTED, anchor="middle")[0],
+          path(f"M150 {y0}H232", pid="u"), f'<circle cx="262" cy="{y0}" r="26" fill="{NAVY}" stroke="{P}" stroke-width="1.8"/>',
+          text("+", 262, y0 + 9, 28, "sans6", P, anchor="middle")[0]]
+    ys = [y0 - 150, y0 - 50, y0 + 50, y0 + 150]
+    for i, (yy, (n, d, t, col)) in enumerate(zip(ys, c["rows"])):
+        b.append(path(f"M288 {y0}C330 {y0} 330 {yy} 372 {yy}", pid=f"s{i}"))
+        b.append(box(376, yy - 36, 380, 72, stroke=col, op=.85))
+        b.append(f'<rect x="376" y="{yy - 36}" width="5" height="72" rx="2.5" fill="{col}"/>')
+        b.append(text(n, 400, yy - 4, 21, "sans6", WHITE)[0])
+        b.append(text(t, 400, yy + 22, 14, "mono", MUTED)[0])
+        b.append(path(f"M756 {yy}C812 {yy} 812 {y0} 866 {y0}", pid=f"m{i}"))
+    b += [box(870, y0 - 40, 270, 80, stroke=S, fill="#0d0a24", sw=2), text(c["works"], 1005, y0 + 8, 20, "sans6", WHITE, anchor="middle")[0]]
+    # sprzężenie zwrotne pod spodem
+    b.append(path(f"M1005 {y0 + 40}V{y0 + 232}H262V{y0 + 28}", stroke=S, op=.9, dash="6 6", pid="fb"))
+    b.append(text(c["loop"], 633, y0 + 222, 15, "mono", S, anchor="middle")[0])
+    b += [pulse("u", 2.4, 0, "#b9a6ff")] + [pulse(f"s{i}", 2.4, .6 + i * .25) for i in range(4)] + [pulse(f"m{i}", 2.4, 1.8 + i * .25) for i in range(4)] + [pulse("fb", 4.8, 3, "#b9a6ff")]
+    svg(f"flow-{lang}.svg", h, b, "Piotr Jeleniewicz")
+
+def build_flow_m(lang):
+    c, w, h = COPY[lang], M, 1060
+    b = frame(w, h) + [text(c["kicker"].split(" & ")[0].split(" I ")[0], 36, 58, 13, "sans6", P, ls=3.4)[0],
+                       text("PIOTR", 32, 118, 50, "display", WHITE)[0], text("JELENIEWICZ", 32, 170, 50, "display", WHITE)[0]]
+    cx = 270
+    b += [f'<circle cx="{cx}" cy="250" r="36" fill="#120a2e" stroke="{S}" stroke-width="1.8"/>', text(c["me"], cx, 257, 20, "sans6", WHITE, anchor="middle")[0],
+          path(f"M{cx} 286V330", pid="u"), f'<circle cx="{cx}" cy="356" r="24" fill="{NAVY}" stroke="{P}" stroke-width="1.8"/>',
+          text("+", cx, 365, 26, "sans6", P, anchor="middle")[0], path(f"M{cx} 380V412", pid="d0")]
+    for i, (n, d, t, col) in enumerate(c["rows"]):
+        y = 416 + i * 120
+        b += [box(60, y, 420, 92, stroke=col, op=.85), f'<rect x="60" y="{y}" width="5" height="92" rx="2.5" fill="{col}"/>',
+              text(n, 86, y + 40, 24, "sans6", WHITE)[0], text(t, 86, y + 70, 15, "mono", MUTED)[0]]
+        if i < 3:
+            b.append(path(f"M{cx} {y + 92}V{y + 118}", marker=True, pid=f"d{i + 1}"))
+    yb = 416 + 4 * 120
+    b += [path(f"M{cx} {yb - 28}V{yb + 8}", pid="d4"), box(110, yb + 12, 320, 70, stroke=S, fill="#0d0a24", sw=2),
+          text(c["works"], cx, yb + 55, 20, "sans6", WHITE, anchor="middle")[0],
+          path(f"M430 {yb + 47}H530V356H296", stroke=S, op=.9, dash="6 6", pid="fb"),
+          f'<g transform="translate(552 {(356 + yb + 47) / 2}) rotate(-90)">{text(c["loop"], 0, 0, 14, "mono", S, anchor="middle")[0]}</g>']
+    b += [pulse("u", 2, 0, "#b9a6ff")] + [pulse(f"d{i}", 1.4, .5 + i * .45) for i in range(5)] + [pulse("fb", 4.4, 3, "#b9a6ff")]
+    svg(f"flow-{lang}-m.svg", h, b, "Piotr Jeleniewicz", w)
+
+# ---------- C: karty + aktywność ----------
+def card(x, y, w, h, n, d, t, col, big=False):
+    s = 1.12 if big else 1
+    out = [box(x, y, w, h, stroke="url(#edge)", fill=NAVY, sw=1.5, r=14, op=.45), f'<rect x="{x + 22}" y="{y + 22}" width="38" height="4" rx="2" fill="{col}" filter="url(#neon)"/>',
+           text(n, x + 22, y + 64, 26 * s, "sans6", WHITE)[0], text(t, x + 22, y + h - 24, 14.5 * s, "mono", P)[0]]
+    line, lines = "", []
+    for word in d.split(" "):   # opis łamany do szerokości karty
+        if text((line + " " + word).strip(), 0, 0, 17 * s)[1] > w - 44: lines.append(line); line = word
+        else: line = (line + " " + word).strip()
+    lines.append(line)
+    out += [text(l, x + 22, y + 96 + i * 24 * s, 17 * s, "sans", TEXT)[0] for i, l in enumerate(lines)]
+    return out
+
+def build_cards(lang):
+    c, h = COPY[lang], 400
+    b = [DEFS]
+    for i, row in enumerate(c["rows"]):
+        b += card(4 + (i % 2) * 600, 4 + (i // 2) * 200, 592, 188, *row)
+    svg(f"cards-{lang}.svg", h, b, c["projects"])
+    b = [DEFS]
+    for i, row in enumerate(c["rows"]):
+        b += card(4, 4 + i * 214, M - 8, 202, *row, big=True)
+    svg(f"cards-{lang}-m.svg", 4 * 214 + 4, b, c["projects"], M)
+
+def gh_token():
+    if os.environ.get("GITHUB_TOKEN"): return os.environ["GITHUB_TOKEN"]
+    return subprocess.run(["gh", "auth", "token"], capture_output=True, text=True).stdout.strip()
+
+# ---------- C: nagłówek jak terminal (linie pojawiają się po kolei, kursor mruga) ----------
+ANIM = ("<style>.ln{opacity:0;animation:in .35s ease-out forwards}.cur{animation:bl 1s steps(1) infinite}"
+        ".c{opacity:0;animation:in .4s ease-out forwards}"
+        "@keyframes in{to{opacity:1}}@keyframes bl{50%{opacity:0}}"
+        "@media (prefers-reduced-motion:reduce){.ln,.c{opacity:1;animation:none}.cur{animation:none}}</style>")
+ROLE = {"en": "Software development & system integration", "pl": "Tworzenie oprogramowania i integracja systemów"}
+
+def ln(i, body, step=.55):
+    return f'<g class="ln" style="animation-delay:{.3 + i * step:.2f}s">{body}</g>'
+
+def prompt(cmd, x, y, size=19):
+    return text("$", x, y, size, "mono", B)[0] + text(cmd, x + size * 1.1, y, size, "mono", TEXT)[0]
+
+def term_bar(w):
+    return "".join(f'<circle cx="{34 + i * 22}" cy="34" r="6" fill="{c}" opacity=".85"/>' for i, c in enumerate((B, "#5fa8ff", MUTED))) + \
+           text("xcape@gdynia: ~", w / 2, 40, 14, "mono", MUTED, anchor="middle")[0] + f'<line x1="1" y1="62" x2="{w - 1}" y2="62" stroke="{LINE}" stroke-width="1.2"/>'
+
+CHAR = .09   # czas jednego znaku przy pisaniu
+
+def terminal(items, uid):
+    """Sekwencja jak w terminalu: komendy wpisują się znak po znaku (SMIL, odsłanianie przez clipPath),
+    po "enterze" wynik pojawia się od razu, kursor jedzie za tekstem i na końcu mruga."""
+    t, out, keys = .5, [], []
+    show = lambda when, body: f'<g opacity="0"><set attributeName="opacity" to="1" begin="{when:.2f}s" fill="freeze"/>{body}</g>'
+    for n, (kind, *a) in enumerate(items):
+        if kind == "cmd":
+            x, y, size, cmd = a
+            adv, x0 = text("M", 0, 0, size, "mono")[1], x + size * 1.1
+            out.append(show(t, text("$", x, y, size, "mono", B)[0]))
+            keys.append((t, x0, y, size))
+            t0, vals = t + .35, ";".join(f"{k * adv:.1f}" for k in range(len(cmd) + 1))
+            out.append(f'<clipPath id="{uid}{n}"><rect x="{x0 - 1:.1f}" y="{y - size:.1f}" height="{size * 1.5:.1f}" width="0">'
+                       f'<animate attributeName="width" values="{vals}" calcMode="discrete" begin="{t0:.2f}s" dur="{len(cmd) * CHAR:.2f}s" fill="freeze"/></rect></clipPath>')
+            out.append(f'<g clip-path="url(#{uid}{n})">{text(cmd, x0, y, size, "mono", TEXT)[0]}</g>')
+            keys += [(t0 + (k + 1) * CHAR, x0 + (k + 1) * adv, y, size) for k in range(len(cmd))]
+            t = t0 + len(cmd) * CHAR + .45   # chwila przed enterem
+        elif kind == "out":
+            out.append(show(t, a[0])); t += .5
+        else:   # pusty prompt na końcu
+            x, y, size = a
+            out.append(show(t, text("$", x, y, size, "mono", B)[0])); keys.append((t, x + size * 1.1, y, size))
+    first = keys[0][0]   # kursor pojawia się razem z pierwszym "$"
+    keys.insert(0, (0, *keys[0][1:]))   # keyTimes w SMIL muszą zaczynać się od 0, inaczej animacja jest ignorowana
+    end = keys[-1][0] + .01
+    kt = ";".join(f"{min(1, k[0] / end):.4f}" for k in keys)
+    xs, ys = ";".join(f"{k[1]:.1f}" for k in keys), ";".join(f"{k[2] - k[3] * .82:.1f}" for k in keys)
+    s = keys[0][3]
+    cur = (f'<rect x="{keys[0][1]:.1f}" y="{keys[0][2] - s * .82:.1f}" width="{s * .55:.1f}" height="{s:.1f}" fill="{B}" opacity="0" filter="url(#neon)">'
+           f'<set attributeName="opacity" to="1" begin="{first:.2f}s"/>'
+           f'<animate attributeName="x" values="{xs}" keyTimes="{kt}" calcMode="discrete" dur="{end:.2f}s" fill="freeze"/>'
+           f'<animate attributeName="y" values="{ys}" keyTimes="{kt}" calcMode="discrete" dur="{end:.2f}s" fill="freeze"/>'
+           f'<animate attributeName="opacity" values="1;0" calcMode="discrete" dur="1s" begin="{end:.2f}s" repeatCount="indefinite"/></rect>')
+    return out + [cur]
+
+def build_header(lang):
+    h = 330
+    b = frame(W, h) + [term_bar(W)] + terminal([("cmd", 44, 112, 19, "whoami"), ("out", text("PIOTR JELENIEWICZ", 42, 176, 54, "display", WHITE)[0]),
+                                                 ("cmd", 44, 226, 19, "cat role.txt"), ("out", text(ROLE[lang], 44, 262, 22, "sans", TEXT)[0]),
+                                                 ("end", 44, 304, 19)], "t") + \
+        [f'<image href="{logo_uri()}" x="930" y="92" width="200" height="200"/>', f'<circle cx="1030" cy="192" r="97.5" fill="none" stroke="url(#edge)" stroke-opacity=".7" stroke-width="1.5"/>']
+    svg(f"header-{lang}.svg", h, b, "Piotr Jeleniewicz")
+
+def build_header_m(lang):
+    h = 430
+    words, lines, cur = ROLE[lang].split(" "), [], ""
+    for wd in words:
+        if text((cur + " " + wd).strip(), 0, 0, 22)[1] > M - 64: lines.append(cur); cur = wd
+        else: cur = (cur + " " + wd).strip()
+    lines.append(cur)
+    yc = 336 + len(lines) * 30 + 12
+    b = frame(M, h) + [term_bar(M), f'<image href="{logo_uri()}" x="468" y="78" width="96" height="96"/>'] + \
+        terminal([("cmd", 32, 112, 18, "whoami"), ("out", text("PIOTR", 30, 186, 54, "display", WHITE)[0] + text("JELENIEWICZ", 30, 244, 54, "display", WHITE)[0]),
+                  ("cmd", 32, 300, 18, "cat role.txt"), ("out", "".join(text(l, 32, 336 + i * 30, 22, "sans", TEXT)[0] for i, l in enumerate(lines))),
+                  ("end", 32, yc, 18)], "m")
+    svg(f"header-{lang}-m.svg", h, b, "Piotr Jeleniewicz", M)
+
+# ---------- dane ----------
+def activity():
+    q = '{ user(login: "%s") { contributionsCollection { totalCommitContributions contributionCalendar { totalContributions weeks { contributionDays { date contributionCount } } } } } }' % sk.USER
+    req = urllib.request.Request("https://api.github.com/graphql", data=json.dumps({"query": q}).encode(), headers={"Authorization": "Bearer " + gh_token()})
+    cc = json.load(urllib.request.urlopen(req, timeout=20))["data"]["user"]["contributionsCollection"]
+    weeks = [(w["contributionDays"][0]["date"], [d["contributionCount"] for d in w["contributionDays"]]) for w in cc["contributionCalendar"]["weeks"]]
+    pub = json.load(urllib.request.urlopen(f"https://api.github.com/users/{sk.USER}", timeout=20))["public_repos"]
+    return dict(total=cc["contributionCalendar"]["totalContributions"], commits=cc["totalCommitContributions"], pub=pub, weeks=weeks)
+
+MONTHS = {"en": "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(), "pl": "sty lut mar kwi maj cze lip sie wrz paź lis gru".split()}
+
+def nice(v):
+    e = 10 ** math.floor(math.log10(max(v, 1)))
+    return next(m * e for m in (1, 2, 2.5, 5, 10) if m * e >= v)
+
+def month_ticks(dates, lang, every=1):
+    out, prev, k = [], None, 0
+    for i, d in enumerate(dates):
+        m = int(d[5:7])
+        if m != prev and i > 0:
+            if k % every == 0: out.append((i, MONTHS[lang][m - 1]))
+            k += 1
+        prev = m
+    return out
+
+def chart(weeks, lang, x0, y0, w, h, every=1):
+    vals = [sum(c) for _, c in weeks]
+    vals = [sum(vals[max(0, i - 1):i + 2]) / len(vals[max(0, i - 1):i + 2]) for i in range(len(vals))]   # średnia z 3 tygodni
+    step = nice(max(vals) / 2); top = step * 2
+    X = lambda i: x0 + i * w / (len(vals) - 1); Y = lambda v: y0 + h - v / top * h
+    out = []
+    for k in range(3):   # oś Y: 0, połowa, góra
+        yy, dash = Y(k * step), "" if k == 0 else 'stroke-dasharray="3 5"'
+        out += [f'<line x1="{x0}" y1="{yy:.1f}" x2="{x0 + w}" y2="{yy:.1f}" stroke="{LINE}" stroke-width="1" {dash}/>',
+                text(f"{k * step:g}", x0 - 10, yy + 4, 12, "mono", MUTED, anchor="end")[0]]
+    for i, lab in month_ticks([d for d, _ in weeks], lang, every):   # oś X: miesiące
+        out += [f'<line x1="{X(i):.1f}" y1="{y0 + h}" x2="{X(i):.1f}" y2="{y0 + h + 5}" stroke="{MUTED}" stroke-width="1"/>',
+                text(lab, X(i), y0 + h + 22, 12, "mono", MUTED, anchor="middle")[0]]
+    pts = [(X(i), Y(v)) for i, v in enumerate(vals)]
+    d = f"M{pts[0][0]:.1f} {pts[0][1]:.1f}" + "".join(f"C{(ax + bx) / 2:.1f} {ay:.1f} {(ax + bx) / 2:.1f} {by:.1f} {bx:.1f} {by:.1f}" for (ax, ay), (bx, by) in zip(pts, pts[1:]))
+    out.append(f'<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{B}" stop-opacity=".35"/><stop offset="1" stop-color="{B}" stop-opacity="0"/></linearGradient>'
+               f'<linearGradient id="wl" gradientUnits="userSpaceOnUse" x1="{x0}" y1="0" x2="{x0 + w}" y2="0"><stop offset="0" stop-color="{B}"/><stop offset="1" stop-color="#5fa8ff"/></linearGradient></defs>'
+               f'<path d="{d}L{x0 + w} {y0 + h}L{x0} {y0 + h}Z" fill="url(#wg)"/><path d="{d}" fill="none" stroke="url(#wl)" stroke-width="2.4" stroke-linejoin="round" filter="url(#neon)"/>')
+    return out
+
+TITLES = {"en": dict(heat="CONTRIBUTION CALENDAR", hours="WHEN I COMMIT", peak="busiest hour", unit="commits", none="less", more="more"),
+          "pl": dict(heat="KALENDARZ KONTRYBUCJI", hours="KIEDY COMMITUJĘ", peak="najczęściej", unit="commitów", none="mniej", more="więcej")}
+
+def build_stats(lang, data, repos):
+    c = COPY[lang]; when = lambda d: d.strftime("%d.%m") if lang == "pl" else d.strftime("%b %d")
+    nums = (data["total"], data["commits"], data["pub"])
+    h = 360
+    b = frame(W, h, "glowbr") + [text(c["activity"], 44, 62, 14, "sans6", B, ls=3.6)[0]]
+    for i, (v, l) in enumerate(zip(nums, c["stats"])):
+        b += [text(str(v), 44 + i * 140, 150, 44, "sans6", WHITE)[0], text(l, 46 + i * 140, 178, 14, "sans", MUTED)[0]]
+    b += chart(data["weeks"], lang, 560, 60, 600, 190) + [text(c["weeks"], 44, 230, 13, "mono", MUTED)[0],
+          f'<line x1="44" y1="296" x2="1156" y2="296" stroke="{LINE}" stroke-width="1.2"/>',
+          text(f'{c["now"]}: ' + "  ·  ".join(f"{n} {when(d)}" for n, d in repos), 44, 330, 17, "mono", TEXT)[0]]
+    svg(f"stats-{lang}.svg", h, b, c["activity"])
+    h = 540
+    b = frame(M, h, "glowbr") + [text(c["activity"], 30, 56, 13, "sans6", B, ls=2.6)[0]]
+    for i, (v, l) in enumerate(zip(nums, c["stats"])):
+        b += [text(str(v), 30 + i * 182, 124, 42, "sans6", WHITE)[0], text(l, 32 + i * 182, 152, 15, "sans", MUTED)[0]]
+    b += chart(data["weeks"], lang, 74, 190, M - 104, 180, every=2) + [f'<line x1="30" y1="420" x2="{M - 30}" y2="420" stroke="{LINE}" stroke-width="1.2"/>']
+    b += [text((f'{c["now"]}: ' if i == 0 else "") + f"{n} · {when(d)}", 30 if i == 0 else 30 + text(c["now"] + ": ", 0, 0, 18, "mono")[1], 458 + i * 32, 18, "mono", TEXT)[0] for i, (n, d) in enumerate(repos)]
+    svg(f"stats-{lang}-m.svg", h, b, c["activity"], M)
+
+LEVELS = ("#0f1a2e", "#2f1c80", "#3532b8", "#2f55e0", "#2c7ffe")   # od ciemnego fioletu (mało) do jasnego niebieskiego (dużo): jasność rośnie razem z poziomem
+def level(v):
+    return 0 if v == 0 else 1 if v <= 2 else 2 if v <= 5 else 3 if v <= 10 else 4
+
+def heat(weeks, lang, x0, y0, cell=17, gap=4):
+    out, step = [], cell + gap
+    for i, (_, days) in enumerate(weeks):
+        for j, v in enumerate(days):
+            fill = f'fill="none" stroke="{P}" stroke-opacity=".22" stroke-width="1"' if v == 0 else f'fill="{LEVELS[level(v)]}"'   # puste kratki tylko obrysem: widać tło strony
+            out.append(f'<rect class="c" style="animation-delay:{.2 + i * .022 + j * .01:.2f}s" x="{x0 + i * step + .5}" y="{y0 + j * step + .5}" width="{cell - 1}" height="{cell - 1}" rx="3.5" {fill}/>')
+    for i, lab in month_ticks([d for d, _ in weeks], lang):
+        out.append(text(lab, x0 + i * step, y0 - 10, 12, "mono", MUTED)[0])
+    return out
+
+def legend(lang, x, y):
+    t = TITLES[lang]
+    out = [text(t["none"], x - 8, y + 12, 12, "mono", MUTED, anchor="end")[0]]
+    out += [f'<rect x="{x + k * 18 + .5}" y="{y + .5}" width="13" height="13" rx="3" ' + (f'fill="none" stroke="{P}" stroke-opacity=".22"' if k == 0 else f'fill="{c}"') + '/>' for k, c in enumerate(LEVELS)]
+    return out + [text(t["more"], x + 5 * 18 + 6, y + 12, 12, "mono", MUTED)[0]]
+
+def build_heat(lang, data):
+    # bez tła i tytułu: sama siatka, wyśrodkowana, przezroczysta
+    t, step = TITLES[lang], 21
+    for n, w, name in ((53, W, f"heat-{lang}.svg"), (26, M, f"heat-{lang}-m.svg")):
+        wk, gw = data["weeks"][-n:], n * step - 4
+        x0 = (w - gw) / 2
+        b = [ANIM] + heat(wk, lang, x0, 30) + legend(lang, x0 + gw - 5 * 18 - 40, 194)
+        svg(name, 214, b, t["heat"], w)
+
+if __name__ == "__main__":
+    what = sys.argv[1] if len(sys.argv) > 1 else "all"
+    if what in ("flow", "all"):
+        for lang in COPY: build_flow(lang); build_flow_m(lang)
+    if what in ("cards", "stats", "all"):
+        data, repos = activity(), latest_repos()
+        for lang in COPY:
+            if what != "stats": build_header(lang); build_header_m(lang); build_cards(lang)
+            build_stats(lang, data, repos); build_heat(lang, data)
