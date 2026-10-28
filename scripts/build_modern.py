@@ -288,7 +288,7 @@ def build_stats(lang, data, repos):
     b += [text((f'{c["now"]}: ' if i == 0 else "") + f"{n} · {when(d)}", 30 if i == 0 else 30 + text(c["now"] + ": ", 0, 0, 18, "mono")[1], 458 + i * 32, 18, "mono", TEXT)[0] for i, (n, d) in enumerate(repos)]
     svg(f"stats-{lang}-m.svg", h, b, c["activity"], M)
 
-LEVELS = ("#0f1a2e", "#1c2c9c", "#3a37c4", "#5f4ae6", "#8c5cff")   # zakres podany przez autora: #002DFF (mało) -> #9B00FF (dużo), równe kroki
+LEVELS = ("#0f1a2e", "#172483", "#3a37c4", "#5f4ae6", "#8c5cff")   # zakres podany przez autora: #002DFF (mało) -> #9B00FF (dużo), równe kroki
 def level(v):
     return 0 if v == 0 else 1 if v <= 2 else 2 if v <= 5 else 3 if v <= 10 else 4
 
