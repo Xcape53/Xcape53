@@ -1,7 +1,7 @@
 <!-- Artwork: python scripts/build_modern.py cards (calendar and activity refresh daily) -->
 <p align="right"><a href="README.pl.md"><img src="https://img.shields.io/badge/czytaj-po%20polsku-7237d7?style=flat-square&labelColor=020816" alt="Czytaj po polsku"></a></p>
 
-<a href="https://piotrjeleniewicz.com/en/"><picture><source media="(max-width: 600px)" srcset="assets/modern/header-en-m.svg?v=8ecf0074"><img src="assets/modern/header-en.svg?v=061b88a9" alt="Piotr Jeleniewicz" width="100%"></picture></a>
+<a href="https://piotrjeleniewicz.com/en/"><picture><source media="(max-width: 600px)" srcset="assets/modern/header-en-m.svg?v=c112fdb9"><img src="assets/modern/header-en.svg?v=686921d4" alt="Piotr Jeleniewicz" width="100%"></picture></a>
 
 I build applications and automation tools that connect APIs, data and AI services. I'm in my final semester of Electronics and Telecommunications at Gdańsk University of Technology, and I've been into automation since primary school.
 

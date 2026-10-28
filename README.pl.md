@@ -1,7 +1,7 @@
 <!-- Artwork: python scripts/build_modern.py cards (calendar and activity refresh daily) -->
 <p align="right"><a href="README.md"><img src="https://img.shields.io/badge/read%20in-English-7237d7?style=flat-square&labelColor=020816" alt="Read in English"></a></p>
 
-<a href="https://piotrjeleniewicz.com/pl/"><picture><source media="(max-width: 600px)" srcset="assets/modern/header-pl-m.svg?v=6c0f7a8e"><img src="assets/modern/header-pl.svg?v=55c3e758" alt="Piotr Jeleniewicz" width="100%"></picture></a>
+<a href="https://piotrjeleniewicz.com/pl/"><picture><source media="(max-width: 600px)" srcset="assets/modern/header-pl-m.svg?v=caf7aa34"><img src="assets/modern/header-pl.svg?v=cc4c5b65" alt="Piotr Jeleniewicz" width="100%"></picture></a>
 
 Buduję aplikacje i narzędzia do automatyzacji, które łączą API, dane i usługi AI. Jestem na ostatnim semestrze Elektroniki i Telekomunikacji na Politechnice Gdańskiej, a automatyzacją interesuję się od podstawówki.
 

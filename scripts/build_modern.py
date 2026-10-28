@@ -162,28 +162,63 @@ def term_bar(w):
     return "".join(f'<circle cx="{34 + i * 22}" cy="34" r="6" fill="{c}" opacity=".85"/>' for i, c in enumerate((B, "#5fa8ff", MUTED))) + \
            text("xcape@gdynia: ~", w / 2, 40, 14, "mono", MUTED, anchor="middle")[0] + f'<line x1="1" y1="62" x2="{w - 1}" y2="62" stroke="{LINE}" stroke-width="1.2"/>'
 
+CHAR = .09   # czas jednego znaku przy pisaniu
+
+def terminal(items, uid):
+    """Sekwencja jak w terminalu: komendy wpisują się znak po znaku (SMIL, odsłanianie przez clipPath),
+    po "enterze" wynik pojawia się od razu, kursor jedzie za tekstem i na końcu mruga."""
+    t, out, keys = .5, [], []
+    show = lambda when, body: f'<g opacity="0"><set attributeName="opacity" to="1" begin="{when:.2f}s" fill="freeze"/>{body}</g>'
+    for n, (kind, *a) in enumerate(items):
+        if kind == "cmd":
+            x, y, size, cmd = a
+            adv, x0 = text("M", 0, 0, size, "mono")[1], x + size * 1.1
+            out.append(show(t, text("$", x, y, size, "mono", B)[0]))
+            keys.append((t, x0, y, size))
+            t0, vals = t + .35, ";".join(f"{k * adv:.1f}" for k in range(len(cmd) + 1))
+            out.append(f'<clipPath id="{uid}{n}"><rect x="{x0 - 1:.1f}" y="{y - size:.1f}" height="{size * 1.5:.1f}" width="0">'
+                       f'<animate attributeName="width" values="{vals}" calcMode="discrete" begin="{t0:.2f}s" dur="{len(cmd) * CHAR:.2f}s" fill="freeze"/></rect></clipPath>')
+            out.append(f'<g clip-path="url(#{uid}{n})">{text(cmd, x0, y, size, "mono", TEXT)[0]}</g>')
+            keys += [(t0 + (k + 1) * CHAR, x0 + (k + 1) * adv, y, size) for k in range(len(cmd))]
+            t = t0 + len(cmd) * CHAR + .45   # chwila przed enterem
+        elif kind == "out":
+            out.append(show(t, a[0])); t += .5
+        else:   # pusty prompt na końcu
+            x, y, size = a
+            out.append(show(t, text("$", x, y, size, "mono", B)[0])); keys.append((t, x + size * 1.1, y, size))
+    first = keys[0][0]   # kursor pojawia się razem z pierwszym "$"
+    keys.insert(0, (0, *keys[0][1:]))   # keyTimes w SMIL muszą zaczynać się od 0, inaczej animacja jest ignorowana
+    end = keys[-1][0] + .01
+    kt = ";".join(f"{min(1, k[0] / end):.4f}" for k in keys)
+    xs, ys = ";".join(f"{k[1]:.1f}" for k in keys), ";".join(f"{k[2] - k[3] * .82:.1f}" for k in keys)
+    s = keys[0][3]
+    cur = (f'<rect x="{keys[0][1]:.1f}" y="{keys[0][2] - s * .82:.1f}" width="{s * .55:.1f}" height="{s:.1f}" fill="{B}" opacity="0" filter="url(#neon)">'
+           f'<set attributeName="opacity" to="1" begin="{first:.2f}s"/>'
+           f'<animate attributeName="x" values="{xs}" keyTimes="{kt}" calcMode="discrete" dur="{end:.2f}s" fill="freeze"/>'
+           f'<animate attributeName="y" values="{ys}" keyTimes="{kt}" calcMode="discrete" dur="{end:.2f}s" fill="freeze"/>'
+           f'<animate attributeName="opacity" values="1;0" calcMode="discrete" dur="1s" begin="{end:.2f}s" repeatCount="indefinite"/></rect>')
+    return out + [cur]
+
 def build_header(lang):
     h = 330
-    b = frame(W, h) + [ANIM, term_bar(W),
-         ln(0, prompt("whoami", 44, 112)), ln(1, text("PIOTR JELENIEWICZ", 42, 176, 54, "display", WHITE)[0]),
-         ln(2, prompt("cat role.txt", 44, 226)), ln(3, text(ROLE[lang], 44, 262, 22, "sans", TEXT)[0]),
-         ln(4, text("$", 44, 304, 19, "mono", B)[0] + f'<rect class="cur" x="68" y="288" width="11" height="20" fill="{B}" filter="url(#neon)"/>'),
-         f'<image href="{logo_uri()}" x="930" y="92" width="200" height="200"/>', f'<circle cx="1030" cy="192" r="97.5" fill="none" stroke="url(#edge)" stroke-opacity=".7" stroke-width="1.5"/>']
+    b = frame(W, h) + [term_bar(W)] + terminal([("cmd", 44, 112, 19, "whoami"), ("out", text("PIOTR JELENIEWICZ", 42, 176, 54, "display", WHITE)[0]),
+                                                 ("cmd", 44, 226, 19, "cat role.txt"), ("out", text(ROLE[lang], 44, 262, 22, "sans", TEXT)[0]),
+                                                 ("end", 44, 304, 19)], "t") + \
+        [f'<image href="{logo_uri()}" x="930" y="92" width="200" height="200"/>', f'<circle cx="1030" cy="192" r="97.5" fill="none" stroke="url(#edge)" stroke-opacity=".7" stroke-width="1.5"/>']
     svg(f"header-{lang}.svg", h, b, "Piotr Jeleniewicz")
 
 def build_header_m(lang):
     h = 430
-    b = frame(M, h) + [ANIM, term_bar(M), f'<image href="{logo_uri()}" x="468" y="78" width="96" height="96"/>',
-         ln(0, prompt("whoami", 32, 112, 18)), ln(1, text("PIOTR", 30, 186, 54, "display", WHITE)[0] + text("JELENIEWICZ", 30, 244, 54, "display", WHITE)[0]),
-         ln(2, prompt("cat role.txt", 32, 300, 18))]
     words, lines, cur = ROLE[lang].split(" "), [], ""
     for wd in words:
         if text((cur + " " + wd).strip(), 0, 0, 22)[1] > M - 64: lines.append(cur); cur = wd
         else: cur = (cur + " " + wd).strip()
     lines.append(cur)
-    b.append(ln(3, "".join(text(l, 32, 336 + i * 30, 22, "sans", TEXT)[0] for i, l in enumerate(lines))))
     yc = 336 + len(lines) * 30 + 12
-    b.append(ln(4, text("$", 32, yc, 18, "mono", B)[0] + f'<rect class="cur" x="54" y="{yc - 16}" width="10" height="19" fill="{B}"/>'))
+    b = frame(M, h) + [term_bar(M), f'<image href="{logo_uri()}" x="468" y="78" width="96" height="96"/>'] + \
+        terminal([("cmd", 32, 112, 18, "whoami"), ("out", text("PIOTR", 30, 186, 54, "display", WHITE)[0] + text("JELENIEWICZ", 30, 244, 54, "display", WHITE)[0]),
+                  ("cmd", 32, 300, 18, "cat role.txt"), ("out", "".join(text(l, 32, 336 + i * 30, 22, "sans", TEXT)[0] for i, l in enumerate(lines))),
+                  ("end", 32, yc, 18)], "m")
     svg(f"header-{lang}-m.svg", h, b, "Piotr Jeleniewicz", M)
 
 # ---------- dane ----------
