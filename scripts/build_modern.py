@@ -288,7 +288,7 @@ def build_stats(lang, data, repos):
     b += [text((f'{c["now"]}: ' if i == 0 else "") + f"{n} · {when(d)}", 30 if i == 0 else 30 + text(c["now"] + ": ", 0, 0, 18, "mono")[1], 458 + i * 32, 18, "mono", TEXT)[0] for i, (n, d) in enumerate(repos)]
     svg(f"stats-{lang}-m.svg", h, b, c["activity"], M)
 
-LEVELS = ("#0f1a2e", "#1f2272", "#22379e", "#2253cf", "#2c7ffe")   # od ciemnego fioletu (mało) do jasnego niebieskiego (dużo): jasność rośnie razem z poziomem
+LEVELS = ("#0f1a2e", "#14306e", "#1f3aa6", "#3a39cf", "#5f37ee")   # od ciemnego niebieskiego (mało) do jasnego fioletu (dużo): jasność rośnie razem z poziomem
 def level(v):
     return 0 if v == 0 else 1 if v <= 2 else 2 if v <= 5 else 3 if v <= 10 else 4
 
