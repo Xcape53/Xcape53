@@ -159,7 +159,7 @@ def prompt(cmd, x, y, size=19):
     return text("$", x, y, size, "mono", B)[0] + text(cmd, x + size * 1.1, y, size, "mono", TEXT)[0]
 
 def term_bar(w):
-    return "".join(f'<circle cx="{34 + i * 22}" cy="34" r="6" fill="{c}" opacity=".85"/>' for i, c in enumerate((B, "#4857fd", BS))) + \
+    return "".join(f'<circle cx="{34 + i * 22}" cy="34" r="6" fill="{c}" opacity=".85"/>' for i, c in enumerate((B, "#5fa8ff", MUTED))) + \
            text("xcape@gdynia: ~", w / 2, 40, 14, "mono", MUTED, anchor="middle")[0] + f'<line x1="1" y1="62" x2="{w - 1}" y2="62" stroke="{LINE}" stroke-width="1.2"/>'
 
 def build_header(lang):
@@ -227,7 +227,7 @@ def chart(weeks, lang, x0, y0, w, h, every=1):
     pts = [(X(i), Y(v)) for i, v in enumerate(vals)]
     d = f"M{pts[0][0]:.1f} {pts[0][1]:.1f}" + "".join(f"C{(ax + bx) / 2:.1f} {ay:.1f} {(ax + bx) / 2:.1f} {by:.1f} {bx:.1f} {by:.1f}" for (ax, ay), (bx, by) in zip(pts, pts[1:]))
     out.append(f'<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{B}" stop-opacity=".35"/><stop offset="1" stop-color="{B}" stop-opacity="0"/></linearGradient>'
-               f'<linearGradient id="wl" gradientUnits="userSpaceOnUse" x1="{x0}" y1="0" x2="{x0 + w}" y2="0"><stop offset="0" stop-color="{B}"/><stop offset="1" stop-color="{BS}"/></linearGradient></defs>'
+               f'<linearGradient id="wl" gradientUnits="userSpaceOnUse" x1="{x0}" y1="0" x2="{x0 + w}" y2="0"><stop offset="0" stop-color="{B}"/><stop offset="1" stop-color="#5fa8ff"/></linearGradient></defs>'
                f'<path d="{d}L{x0 + w} {y0 + h}L{x0} {y0 + h}Z" fill="url(#wg)"/><path d="{d}" fill="none" stroke="url(#wl)" stroke-width="2.4" stroke-linejoin="round" filter="url(#neon)"/>')
     return out
 
