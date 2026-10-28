@@ -11,6 +11,6 @@ Buduję aplikacje i narzędzia do automatyzacji, które łączą API, dane i us�
 
 <a href="https://piotrjeleniewicz.com/pl/#projects"><picture><source media="(max-width: 600px)" srcset="assets/modern/cards-pl-m.svg?v=97b5b21d"><img src="assets/modern/cards-pl.svg?v=5a9cf6e9" alt="Projekty: JobManager, SeeSky, LabInc, Yapper" width="100%"></picture></a>
 
-<picture><source media="(max-width: 600px)" srcset="assets/modern/heat-pl-m.svg?v=0828b918"><img src="assets/modern/heat-pl.svg?v=8e89d301" alt="Kalendarz kontrybucji z ostatnich 12 miesięcy" width="100%"></picture>
+<picture><source media="(max-width: 600px)" srcset="assets/modern/heat-pl-m.svg?v=01fbf6b9"><img src="assets/modern/heat-pl.svg?v=ad832dad" alt="Kalendarz kontrybucji z ostatnich 12 miesięcy" width="100%"></picture>
 
 <a href="https://github.com/Xcape53?tab=repositories&sort=updated"><picture><source media="(max-width: 600px)" srcset="assets/modern/stats-pl-m.svg?v=7a546e63"><img src="assets/modern/stats-pl.svg?v=d333ae9d" alt="Kontrybucje z ostatnich 12 miesięcy z osią miesięcy i ostatnie publiczne pushe" width="100%"></picture></a>

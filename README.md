@@ -11,6 +11,6 @@ I build applications and automation tools that connect APIs, data and AI service
 
 <a href="https://piotrjeleniewicz.com/en/#projects"><picture><source media="(max-width: 600px)" srcset="assets/modern/cards-en-m.svg?v=85840b2d"><img src="assets/modern/cards-en.svg?v=c39e7ba0" alt="Projects: JobManager, SeeSky, LabInc, Yapper" width="100%"></picture></a>
 
-<picture><source media="(max-width: 600px)" srcset="assets/modern/heat-en-m.svg?v=2863d349"><img src="assets/modern/heat-en.svg?v=16d6d883" alt="Contribution calendar for the last 12 months" width="100%"></picture>
+<picture><source media="(max-width: 600px)" srcset="assets/modern/heat-en-m.svg?v=73a8a8fe"><img src="assets/modern/heat-en.svg?v=c2ccbe25" alt="Contribution calendar for the last 12 months" width="100%"></picture>
 
 <a href="https://github.com/Xcape53?tab=repositories&sort=updated"><picture><source media="(max-width: 600px)" srcset="assets/modern/stats-en-m.svg?v=cee22906"><img src="assets/modern/stats-en.svg?v=c9a2a778" alt="Contributions in the last 12 months with monthly axis, and my latest public pushes" width="100%"></picture></a>
